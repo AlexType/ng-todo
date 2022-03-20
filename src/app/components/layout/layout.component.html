@@ -67,6 +67,22 @@
             Список задач
           </button>
         </li>
+        <li>
+          <button
+            nz-button
+            [routerLink]="['/tasks']"
+            [queryParams]="{deadline: 'Today'}"
+            (click)="toggleVisibleSidebar(false)"
+          >
+            <i
+              nz-icon
+              nzType="inbox"
+              nzTheme="outline"
+              style="color: #246fe0"
+            ></i>
+            Сегодня
+          </button>
+        </li>
       </ul>
     </ng-container>
   </nz-drawer>

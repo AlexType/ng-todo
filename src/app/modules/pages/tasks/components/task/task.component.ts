@@ -35,6 +35,8 @@ export class TaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.task);
+
     this.mark$ = this.store$
       .select(selectMarkList)
       .pipe(map((marks) => marks.find((m) => m.id === this.task.markId)));
@@ -43,7 +45,7 @@ export class TaskComponent implements OnInit {
       checked: [this.task?.checked, Validators.required],
       deadlineAt: [
         this.task?.deadlineAt
-          ? DateTime.fromSeconds(this.task?.deadlineAt).toJSDate()
+          ? DateTime.fromMillis(this.task?.deadlineAt).toJSDate()
           : null,
       ],
     });

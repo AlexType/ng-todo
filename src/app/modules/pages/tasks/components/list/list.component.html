@@ -1,8 +1,36 @@
 <div class="list-wrapper" *ngIf="taskState$ | async as taskState">
-  <ng-container *ngIf="!taskState.total && !adding; else list">
+  <div class="row">
+    <div class="col-auto">
+      <button nz-dropdown nzTrigger="click" nz-button [nzDropdownMenu]="menu">
+        Вид
+        <i nz-icon nzType="down"></i>
+      </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-submenu nzTitle="Сортировка">
+            <ul>
+              <li
+                nz-menu-item
+                *ngFor="let item of sortMenu"
+                (click)="updateQueryParams('sort', item.type)"
+              >
+                <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+                <span class="ms-2">{{ item.label }}</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <ng-container *ngIf="!total && !adding; else list">
     <nz-empty [nzNotFoundContent]="emptyRef">
       <ng-template #emptyRef>
-        <span>У вас ещё нет задач</span>
+        <span *ngIf="taskState.total">Задач нет</span>
+        <span *ngIf="!taskState.total">У вас ещё нет задач</span>
       </ng-template>
     </nz-empty>
   </ng-container>

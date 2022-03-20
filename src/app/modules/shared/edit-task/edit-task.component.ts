@@ -59,7 +59,7 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
       markId: [this.task?.markId || null],
       deadlineAt: [
         this.task?.deadlineAt
-          ? DateTime.fromSeconds(this.task.deadlineAt).toJSDate()
+          ? DateTime.fromMillis(this.task.deadlineAt).toJSDate()
           : null,
       ],
       checked: [this.task?.checked || false, Validators.required],
