@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { LocalStorageService } from './services/local-storage.service';
+import { GetMarks } from './store/actions/mark.actions';
 import { GetTasks } from './store/actions/task.actions';
 import { IAppState } from './store/state/_app.state';
 
@@ -17,5 +18,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store$.dispatch(new GetTasks(this.ls.getTasks()));
+    this.store$.dispatch(new GetMarks({ marks: this.ls.getMarks() }));
   }
 }

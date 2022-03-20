@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { Component, Optional } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-add-task-dialog',
@@ -7,9 +7,9 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
   styleUrls: ['./add-task-dialog.component.scss'],
 })
 export class AddTaskDialogComponent {
-  approve: any;
+  constructor(@Optional() private modal: NzModalRef) {}
 
-  constructor(public dialogConfig: DynamicDialogConfig) {
-    this.approve = this.dialogConfig.data?.approve;
+  destroyModal(): void {
+    this.modal.destroy();
   }
 }

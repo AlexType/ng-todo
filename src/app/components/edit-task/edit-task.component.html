@@ -2,32 +2,77 @@
   <form [formGroup]="form">
     <textarea
       rows="1"
-      pInputTextarea
-      [autoResize]="true"
+      nz-input
+      class="input edit-filed-title"
       formControlName="title"
       placeholder="Название задачи"
-      class="input edit-filed-title p-inputtext-sm"
-    >
-    </textarea>
+      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
+    ></textarea>
     <textarea
       rows="1"
-      pInputTextarea
-      [autoResize]="true"
+      nz-input
+      class="input edit-filed-content"
       formControlName="content"
       placeholder="Описание задачи"
-      class="input edit-filed-content p-inputtext-sm"
-    >
-    </textarea>
+      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
+    ></textarea>
     <div class="row justify-content-between gx-3">
       <div class="col-auto">
-        <p-calendar
-          inputStyleClass="datepicker-sm"
+        <nz-date-picker
+          nzAllowClear
+          nzFormat="dd MMMM yy"
+          nzPlaceHolder="Событие"
           formControlName="deadlineAt"
-          [showButtonBar]="true"
-          dateFormat="dd MM yy"
-          placeholder="Срок"
-          appendTo="body"
-        ></p-calendar>
+        ></nz-date-picker>
+      </div>
+      <div class="col-auto">
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          style="width: 134px"
+          formControlName="markId"
+          nzPlaceHolder="Тег"
+          [nzDropdownMatchSelectWidth]="false"
+          [nzDropdownRender]="renderTemplate"
+        >
+          <nz-option
+            nzCustomContent
+            [nzValue]="mark.id"
+            [nzLabel]="mark.title"
+            *ngFor="let mark of marks$ | async"
+          >
+            <i
+              nz-icon
+              style="font-size: 16px"
+              [nzType]="mark.icon?.type || 'aim'"
+              [ngStyle]="{ color: mark.icon?.color || 'gray' }"
+            ></i>
+            {{ mark.title }}
+          </nz-option>
+          <ng-template #renderTemplate>
+            <div class="mx-1 mt-1">
+              <div class="row g-0">
+                <div class="col">
+                  <input
+                    type="text"
+                    nz-input
+                    #inputElement
+                    placeholder="Добавить проект"
+                  />
+                </div>
+                <div class="col-auto">
+                  <button
+                    nzType="text"
+                    nz-button
+                    (click)="addNewMark(inputElement)"
+                  >
+                    <i nz-icon nzType="plus" nzTheme="outline"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </nz-select>
       </div>
     </div>
   </form>
@@ -36,15 +81,19 @@
 <div class="row align-items-center gx-2 mt-3">
   <ng-container *ngIf="id; else addBtn">
     <div class="col-auto">
-      <app-button color="red" (onClick)="save()"> Сохранить </app-button>
+      <button nz-button nzDanger [disabled]="!form.valid" (click)="updateTask()">
+        Сохранить
+      </button>
     </div>
   </ng-container>
   <ng-template #addBtn>
     <div class="col-auto">
-      <app-button color="red" (onClick)="add()"> Добавить </app-button>
+      <button nz-button nzDanger [disabled]="!form.valid" (click)="addNewTask()">
+        Добавить
+      </button>
     </div>
   </ng-template>
   <div class="col-auto">
-    <app-button (onClick)="cancel()"> Отмена </app-button>
+    <button nz-button (click)="cancel()">Отмена</button>
   </div>
 </div>

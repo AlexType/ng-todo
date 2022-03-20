@@ -1,10 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { map, Observable } from 'rxjs';
+import { IMark } from 'src/app/models/mark.interface';
 import { ITask } from 'src/app/models/task.interface';
 import { RemoveTask, UpdateTask } from 'src/app/store/actions/task.actions';
+import { selectMarkList } from 'src/app/store/selectors/mark.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 
 import { TaskViewComponent } from '../task-view/task-view.component';
@@ -15,20 +19,25 @@ import { TaskViewComponent } from '../task-view/task-view.component';
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent implements OnInit, OnDestroy {
+export class TaskComponent implements OnInit {
   @Input() task!: ITask;
 
   form!: FormGroup;
   isEditing: boolean = false;
-  createTaskViewDialogRef: DynamicDialogRef | undefined;
+  mark$!: Observable<IMark | undefined>;
 
   constructor(
     private fb: FormBuilder,
     private store$: Store<IAppState>,
-    public dialogService: DialogService
+    private modalService: NzModalService,
+    private messageService: NzMessageService
   ) {}
 
   ngOnInit(): void {
+    this.mark$ = this.store$
+      .select(selectMarkList)
+      .pipe(map((marks) => marks.find((m) => m.id === this.task.markId)));
+
     this.form = this.fb.group({
       checked: [this.task?.checked, Validators.required],
       deadlineAt: [
@@ -51,31 +60,23 @@ export class TaskComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.destroyDialog();
-  }
-
-  openDialog(): void {
-    this.destroyDialog();
-
-    this.createTaskViewDialogRef = this.dialogService.open(TaskViewComponent, {
-      header: this.task.id,
-      width: '620px',
-      modal: true,
-      baseZIndex: 4000,
-      dismissableMask: true,
-      data: {
+  createTaskViewModal(): void {
+    this.modalService.create({
+      nzContent: TaskViewComponent,
+      nzFooter: null,
+      nzWidth: '620px',
+      nzTitle: this.task.id,
+      nzComponentParams: {
         task: this.task,
       },
     });
   }
 
-  destroyDialog(): void {
-    this.createTaskViewDialogRef?.destroy();
-  }
-
   removeTask(): void {
     this.store$.dispatch(new RemoveTask(this.task.id));
+    this.messageService.info('Задача удалена', {
+      nzDuration: 1300,
+    });
   }
 
   setIsEditing(status: boolean): void {

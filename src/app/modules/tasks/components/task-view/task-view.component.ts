@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ITask } from 'src/app/models/task.interface';
 import { UpdateTask } from 'src/app/store/actions/task.actions';
 import { IAppState } from 'src/app/store/state/_app.state';
@@ -19,13 +18,7 @@ export class TaskViewComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   isEditing: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private store$: Store<IAppState>,
-    public dialogConfig: DynamicDialogConfig
-  ) {
-    this.task = this.dialogConfig.data.task;
-  }
+  constructor(private fb: FormBuilder, private store$: Store<IAppState>) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({

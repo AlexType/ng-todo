@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Component } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 
@@ -8,34 +8,17 @@ import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-di
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnDestroy {
+export class LayoutComponent {
   sidebarVisible: boolean = false;
-  createTaskDialogRef: DynamicDialogRef | undefined;
 
-  constructor(public dialogService: DialogService) {}
+  constructor(private modalService: NzModalService) {}
 
-  ngOnDestroy() {
-    this.destroyDialog();
-  }
-
-  openDialog(): void {
-    this.destroyDialog();
-
-    this.createTaskDialogRef = this.dialogService.open(AddTaskDialogComponent, {
-      header: 'Добавить задачу',
-      width: '620px',
-      modal: true,
-      closeOnEscape: true,
-      dismissableMask: true,
-      data: {
-        id: 2,
-        approve: this.destroyDialog.bind(this),
-      },
+  openModal(): void {
+    this.modalService.create({
+      nzContent: AddTaskDialogComponent,
+      nzFooter: null,
+      nzTitle: 'Добавить задачу',
     });
-  }
-
-  destroyDialog(): void {
-    this.createTaskDialogRef?.destroy();
   }
 
   toggleVisibleSidebar(visible: boolean = !this.sidebarVisible): void {

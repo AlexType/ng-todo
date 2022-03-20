@@ -12,27 +12,20 @@
         <div class="position-relative">
           <div class="row">
             <div class="col-auto">
-              <input
-                type="checkbox"
-                formControlName="checked"
-                class="checkbox form-check-input"
-              />
+              <label nz-checkbox formControlName="checked"></label>
             </div>
             <div class="col" (click)="setIsEditing(true)">
               <p class="title">{{ task.title }}</p>
               <p class="description">{{ task.content }}</p>
               <div class="row mt-2">
                 <div class="col-auto">
-                  <p-calendar
-                    (click)="$event.stopPropagation()"
-                    inputStyleClass="datepicker-sm"
+                  <nz-date-picker
+                    nzAllowClear
+                    nzFormat="dd MMMM yy"
+                    nzPlaceHolder="Событие"
                     formControlName="deadlineAt"
-                    [showButtonBar]="true"
-                    dateFormat="dd MM yy"
-                    placeholder="Срок"
-                    [showIcon]="true"
-                    appendTo="body"
-                  ></p-calendar>
+                    (click)="$event.stopPropagation()"
+                  ></nz-date-picker>
                 </div>
               </div>
             </div>
@@ -43,10 +36,10 @@
   </div>
 
   <div class="task-tabs mt-4">
-    <p-tabView>
-      <p-tabPanel header="Подзадачи"> </p-tabPanel>
-      <p-tabPanel header="Комментарии"> </p-tabPanel>
-      <p-tabPanel header="Действия"> </p-tabPanel>
-    </p-tabView>
+    <nz-tabset>
+      <nz-tab nzTitle="Tab 1">Content of Tab Pane 1</nz-tab>
+      <nz-tab nzTitle="Tab 2">Content of Tab Pane 2</nz-tab>
+      <nz-tab nzTitle="Tab 3">Content of Tab Pane 3</nz-tab>
+    </nz-tabset>
   </div>
 </div>

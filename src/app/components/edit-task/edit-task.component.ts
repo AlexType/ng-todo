@@ -2,11 +2,15 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Observable, of } from 'rxjs';
+import { IMark } from 'src/app/models/mark.interface';
 import { ITask } from 'src/app/models/task.interface';
+import { AddMark } from 'src/app/store/actions/mark.actions';
 import { AddTask, UpdateTask } from 'src/app/store/actions/task.actions';
+import { selectMarkList } from 'src/app/store/selectors/mark.selector';
 import { selectTaskList } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
-import { checkDeadline } from 'src/const';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
@@ -21,10 +25,13 @@ export class EditTaskComponent {
 
   form!: FormGroup;
   task: ITask | undefined;
+  marks$: Observable<IMark[]> = of([]);
 
-  checkDeadline = checkDeadline;
-
-  constructor(private fb: FormBuilder, private store$: Store<IAppState>) {}
+  constructor(
+    private fb: FormBuilder,
+    private store$: Store<IAppState>,
+    private messageService: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     if (this.id) {
@@ -33,9 +40,11 @@ export class EditTaskComponent {
       });
     }
 
+    this.marks$ = this.store$.select(selectMarkList);
+
     this.form = this.fb.group({
       content: [this.task?.content || ''],
-      type: [this.task?.type || null],
+      markId: [this.task?.markId || null],
       deadlineAt: [
         this.task?.deadlineAt
           ? DateTime.fromSeconds(this.task.deadlineAt).toJSDate()
@@ -46,11 +55,22 @@ export class EditTaskComponent {
     });
   }
 
+  addNewMark(input: HTMLInputElement): void {
+    this.store$.dispatch(
+      new AddMark({
+        mark: {
+          id: uuidv4(),
+          title: input.value,
+        },
+      })
+    );
+  }
+
   cancel(): void {
     this.approve.emit();
   }
 
-  add(): void {
+  addNewTask(): void {
     this.task = {
       ...this.task,
       ...this.form.value,
@@ -64,20 +84,24 @@ export class EditTaskComponent {
 
     if (this.task) {
       this.store$.dispatch(new AddTask(this.task));
+      this.messageService.success('Задача создана', { nzDuration: 1300 });
+      this.approve.emit();
     }
-
-    this.approve.emit();
   }
 
-  save(): void {
+  updateTask(): void {
     this.task = {
       ...this.task,
       ...this.form.value,
+      deadlineAt: this.form.value.deadlineAt
+        ? DateTime.fromJSDate(this.form.value.deadlineAt).toSeconds()
+        : null,
       updatedAt: new Date().getTime(),
     };
 
     if (this.task) {
       this.store$.dispatch(new UpdateTask(this.task));
+      this.messageService.success('Задача обновлена', { nzDuration: 1300 });
     }
 
     this.approve.emit();

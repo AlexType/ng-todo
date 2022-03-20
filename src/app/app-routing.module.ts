@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NotFoundComponent } from './components/404/404.component';
 import { LayoutComponent } from './components/layout/layout.component';
 
 const routes: Routes = [
@@ -22,6 +23,11 @@ const routes: Routes = [
         (m) => m.AuthorizationModule
       ),
   },
+  {
+    path: '404',
+    component: NotFoundComponent,
+  },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({

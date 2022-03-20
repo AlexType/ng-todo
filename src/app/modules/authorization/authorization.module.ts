@@ -1,9 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { InputMaskModule } from 'primeng/inputmask';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
 
 import { AuthorizationRoutingModule } from './authorization-routing.module';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -18,14 +14,7 @@ import { RegistrationComponent } from './components/registration/registration.co
     RegistrationComponent,
     RecoveryComponent,
   ],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    PasswordModule,
-    InputMaskModule,
-    InputTextModule,
-    AuthorizationRoutingModule,
-  ],
+  imports: [CommonModule, AuthorizationRoutingModule],
   providers: [],
 })
 export class AuthorizationModule {}

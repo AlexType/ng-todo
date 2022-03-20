@@ -1,0 +1,157 @@
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.dark.less";
+// @import "../node_modules/ng-zorro-antd/message/style/index.less";
+// @import "~ng-zorro-antd/ng-zorro-antd.dark.less";
+// Override less variables to here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+
+// @primary-color: #1890ff;
+
+.ant-message-notice {
+  .ant-message-custom-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-message-notice-content {
+    padding: 8px 15px;
+    box-shadow: 0 0 2px #757474;
+    border-radius: 5px;
+    background: #262626;
+  }
+}
+
+.ant-select .ant-select-selector,
+.ant-input-affix-wrapper,
+.ant-picker {
+  color: #8b8b8b;
+  border-radius: 5px;
+  background: #5e5e5e25;
+
+  &:hover {
+    background: #0202023d;
+  }
+}
+
+.ant-select .ant-select-selector {
+  background-color: #5e5e5e25 !important;
+  border-radius: 5px !important;
+
+  .ant-select-selection-item {
+    color: #fff;
+  }
+}
+
+.ant-picker-suffix {
+  color: #246fe0;
+}
+
+.ant-select-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+}
+
+.ant-select-dropdown {
+  box-shadow: 0 0 2px #757474;
+  border-radius: 0 0 5px 5px;
+  background: #262626;
+}
+
+.ant-select-item-option-content {
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 10px;
+  }
+}
+
+.ant-checkbox-checked::after {
+  border-radius: 100px;
+}
+
+.ant-btn {
+  border-radius: 5px;
+
+  &.ant-btn-dangerous {
+    color: #ff7066;
+    border-color: #ff7066;
+
+    &:hover,
+    &:focus {
+      color: #ff7066;
+      border-color: #ff706694;
+      background: #0202023d;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.ant-btn-primary {
+  color: #8b8b8b;
+  background: #5e5e5e25;
+
+  &:hover,
+  &:focus {
+    color: #8b8b8b;
+    background: #0202023d;
+  }
+
+  &:active {
+    background: #0202023d;
+  }
+}
+
+.ant-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background: none;
+
+    &:after {
+      opacity: 1;
+    }
+  }
+
+  .ant-checkbox-inner {
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background: #c5c5c5;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      border-radius: 100px;
+      transition: 0.2s ease-in-out !important;
+    }
+  }
+}
+
+.mark-task {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+
+  i {
+    margin-right: 10px;
+  }
+}

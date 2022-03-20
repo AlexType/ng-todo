@@ -4,49 +4,42 @@
       <div class="col-auto">
         <div class="row align-items-center gx-1">
           <div class="col-auto">
-            <app-button
-              size="icon"
-              icon="align-justify"
-              type="gray-hover"
-              (click)="toggleVisibleSidebar()"
-            ></app-button>
+            <button nzType="text" nz-button (click)="toggleVisibleSidebar()">
+              <i nz-icon nzType="menu" nzTheme="outline"></i>
+            </button>
           </div>
           <div class="col-auto">
-            <app-button size="icon" icon="home" type="gray-hover"></app-button>
+            <button nzType="text" nz-button>
+              <i nz-icon nzType="home" nzTheme="outline"></i>
+            </button>
           </div>
-          <div class="col-auto ps-2">
-            <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input
-                type="text"
-                pInputText
-                placeholder="Искать"
-                class="p-inputtext-sm"
-              />
-            </span>
+          <div class="col-auto d-none d-md-block ps-2">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" nz-input placeholder="Искать задачу" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon nzType="search"></i>
+            </ng-template>
           </div>
         </div>
       </div>
       <div class="col-auto">
         <div class="row align-items-center gx-1">
           <div class="col-auto">
-            <app-button
-              size="icon"
-              icon="plus"
-              type="gray-hover"
-              (onClick)="openDialog()"
-            ></app-button>
+            <button nz-button nzType="text" (click)="openModal()">
+              <i nz-icon nzType="plus" nzTheme="outline"></i>
+            </button>
           </div>
           <div class="col-auto">
-            <app-button size="icon" icon="bell" type="gray-hover"></app-button>
+            <button nz-button nzType="text" (click)="openModal()">
+              <i nz-icon nzType="bell" nzTheme="outline"></i>
+            </button>
           </div>
           <div class="col-auto ps-2">
-            <a
+            <nz-avatar
               [routerLink]="['/authorization']"
-              style="display: inline-block; color: #fff"
-            >
-              <p-avatar icon="pi pi-user" shape="circle"></p-avatar>
-            </a>
+              nzIcon="user"
+            ></nz-avatar>
           </div>
         </div>
       </div>
@@ -55,28 +48,28 @@
 </header>
 
 <aside>
-  <p-sidebar
-    [showCloseIcon]="false"
-    [(visible)]="sidebarVisible"
-    [style]="{ maxWidth: '307px', paddingTop: '48px' }"
+  <nz-drawer
+    [nzClosable]="false"
+    nzPlacement="left"
+    nzWidth="250px"
+    [(nzVisible)]="sidebarVisible"
+    (nzOnClose)="toggleVisibleSidebar()"
   >
-    <ul class="list">
-      <li>
-        <app-button icon="inbox" (click)="toggleVisibleSidebar(false)">
-          Входящие
-        </app-button>
-      </li>
-      <li>
-        <app-button
-          icon="clock"
-          [routerLink]="['/tasks']"
-          (click)="toggleVisibleSidebar(false)"
-        >
-          Входящие
-        </app-button>
-      </li>
-    </ul>
-  </p-sidebar>
+    <ng-container *nzDrawerContent>
+      <ul class="list">
+        <li>
+          <button
+            nz-button
+            nzType="text"
+            [routerLink]="['/tasks']"
+            (click)="toggleVisibleSidebar(false)"
+          >
+            Входящие
+          </button>
+        </li>
+      </ul>
+    </ng-container>
+  </nz-drawer>
 </aside>
 
 <main class="container">

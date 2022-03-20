@@ -8,6 +8,7 @@
   background: none;
   line-height: 21px;
   border-bottom: none;
+  resize: none;
 
   &:focus {
     outline: none;
@@ -16,11 +17,11 @@
 }
 
 .edit-filed-title {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .edit-filed-content {
-  font-size: 12px;
+  font-size: 14px;
   color: gray;
 }
 
