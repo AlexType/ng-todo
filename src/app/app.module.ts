@@ -42,8 +42,8 @@ const ngZorroConfig: NzConfig = {
   declarations: [
     AppComponent,
     LayoutComponent,
-    AddTaskDialogComponent,
     NotFoundComponent,
+    AddTaskDialogComponent,
   ],
   imports: [
     BrowserModule,
