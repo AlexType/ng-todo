@@ -1,0 +1,32 @@
+.input {
+  padding: 0;
+  width: 100%;
+  border: none;
+  font-size: 14px;
+  border-radius: 0;
+  font-family: "Ubuntu";
+  background: none;
+  line-height: 21px;
+  border-bottom: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.edit-filed-title {
+  font-size: 14px;
+}
+
+.edit-filed-content {
+  font-size: 12px;
+  color: gray;
+}
+
+.edit-filed {
+  background-color: #262626;
+  border: 1px solid #5c5b5b;
+  border-radius: 5px;
+  padding: 10px;
+}

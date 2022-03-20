@@ -1,0 +1,84 @@
+<header class="header">
+  <div class="container-fluid">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-auto">
+        <div class="row align-items-center gx-1">
+          <div class="col-auto">
+            <app-button
+              size="icon"
+              icon="align-justify"
+              type="gray-hover"
+              (click)="toggleVisibleSidebar()"
+            ></app-button>
+          </div>
+          <div class="col-auto">
+            <app-button size="icon" icon="home" type="gray-hover"></app-button>
+          </div>
+          <div class="col-auto ps-2">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                type="text"
+                pInputText
+                placeholder="Искать"
+                class="p-inputtext-sm"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="row align-items-center gx-1">
+          <div class="col-auto">
+            <app-button
+              size="icon"
+              icon="plus"
+              type="gray-hover"
+              (onClick)="openDialog()"
+            ></app-button>
+          </div>
+          <div class="col-auto">
+            <app-button size="icon" icon="bell" type="gray-hover"></app-button>
+          </div>
+          <div class="col-auto ps-2">
+            <a
+              [routerLink]="['/authorization']"
+              style="display: inline-block; color: #fff"
+            >
+              <p-avatar icon="pi pi-user" shape="circle"></p-avatar>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<aside>
+  <p-sidebar
+    [showCloseIcon]="false"
+    [(visible)]="sidebarVisible"
+    [style]="{ maxWidth: '307px', paddingTop: '48px' }"
+  >
+    <ul class="list">
+      <li>
+        <app-button icon="inbox" (click)="toggleVisibleSidebar(false)">
+          Входящие
+        </app-button>
+      </li>
+      <li>
+        <app-button
+          icon="clock"
+          [routerLink]="['/tasks']"
+          (click)="toggleVisibleSidebar(false)"
+        >
+          Входящие
+        </app-button>
+      </li>
+    </ul>
+  </p-sidebar>
+</aside>
+
+<main class="container">
+  <router-outlet></router-outlet>
+</main>

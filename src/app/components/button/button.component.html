@@ -1,0 +1,10 @@
+<button
+  type="button"
+  [ngClass]="classes"
+  (click)="clickHandler()"
+  [pTooltip]="tooltipText"
+  [tooltipPosition]="tooltipPosition"
+>
+  <i *ngIf="icon" [class]="'pi pi-' + icon"></i>
+  <span><ng-content></ng-content></span>
+</button>

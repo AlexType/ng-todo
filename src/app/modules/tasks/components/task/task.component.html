@@ -1,0 +1,68 @@
+<div class="task">
+  <form [formGroup]="form">
+    <ng-container *ngIf="isEditing; else static">
+      <app-edit-task
+        [id]="task.id"
+        (approve)="setIsEditing(false)"
+      ></app-edit-task>
+    </ng-container>
+
+    <ng-template #static>
+      <div class="position-relative">
+        <div class="row" (click)="openDialog()">
+          <div class="col-auto">
+            <input
+              type="checkbox"
+              formControlName="checked"
+              class="checkbox form-check-input"
+            />
+          </div>
+          <div class="col">
+            <p class="title">{{ task.title }}</p>
+            <p class="description">{{ task.content }}</p>
+            <div class="row mt-2">
+              <div class="col-auto">
+                <p-calendar
+                  (click)="$event.stopPropagation()"
+                  inputStyleClass="datepicker-sm"
+                  formControlName="deadlineAt"
+                  [showButtonBar]="true"
+                  dateFormat="dd MM yy"
+                  placeholder="Срок"
+                  [showIcon]="true"
+                  appendTo="body"
+                ></p-calendar>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controllers">
+          <app-button
+            size="icon"
+            icon="pencil"
+            type="gray-hover"
+            (onClick)="setIsEditing(true)"
+            tooltipText="Редактировать"
+          >
+          </app-button>
+          <app-button
+            size="icon"
+            icon="comment"
+            type="gray-hover"
+            tooltipText="Добавить комментарий"
+          >
+          </app-button>
+          <app-button
+            size="icon"
+            icon="trash"
+            type="gray-hover"
+            tooltipText="Удалить"
+            (click)="removeTask()"
+          >
+          </app-button>
+        </div>
+      </div>
+    </ng-template>
+  </form>
+</div>

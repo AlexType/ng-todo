@@ -1,0 +1,43 @@
+.task {
+  position: relative;
+  cursor: pointer;
+
+  &:hover .controllers {
+    opacity: 1;
+  }
+
+  .title {
+    font-size: 14px;
+    line-height: 21px;
+    word-wrap: break-word;
+  }
+
+  .description {
+    font-size: 12px;
+    color: gray;
+    word-wrap: break-word;
+  }
+
+  .controllers {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: 0.2s ease-in-out;
+
+    & > * {
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .checkbox {
+    margin-top: 5px;
+  }
+}

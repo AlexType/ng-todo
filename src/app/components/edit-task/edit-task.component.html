@@ -1,0 +1,50 @@
+<div class="edit-filed">
+  <form [formGroup]="form">
+    <textarea
+      rows="1"
+      pInputTextarea
+      [autoResize]="true"
+      formControlName="title"
+      placeholder="Название задачи"
+      class="input edit-filed-title p-inputtext-sm"
+    >
+    </textarea>
+    <textarea
+      rows="1"
+      pInputTextarea
+      [autoResize]="true"
+      formControlName="content"
+      placeholder="Описание задачи"
+      class="input edit-filed-content p-inputtext-sm"
+    >
+    </textarea>
+    <div class="row justify-content-between gx-3">
+      <div class="col-auto">
+        <p-calendar
+          inputStyleClass="datepicker-sm"
+          formControlName="deadlineAt"
+          [showButtonBar]="true"
+          dateFormat="dd MM yy"
+          placeholder="Срок"
+          appendTo="body"
+        ></p-calendar>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row align-items-center gx-2 mt-3">
+  <ng-container *ngIf="id; else addBtn">
+    <div class="col-auto">
+      <app-button color="red" (onClick)="save()"> Сохранить </app-button>
+    </div>
+  </ng-container>
+  <ng-template #addBtn>
+    <div class="col-auto">
+      <app-button color="red" (onClick)="add()"> Добавить </app-button>
+    </div>
+  </ng-template>
+  <div class="col-auto">
+    <app-button (onClick)="cancel()"> Отмена </app-button>
+  </div>
+</div>
