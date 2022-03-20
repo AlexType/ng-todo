@@ -4,19 +4,19 @@
       #titleRef
       nz-input
       autofocus
-      nzAutosize
       formControlName="title"
       placeholder="Название задачи"
       (keydown)="onKeydown($event)"
       class="input edit-filed-title"
+      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
     ></textarea>
     <textarea
       nz-input
-      nzAutosize
       formControlName="content"
       placeholder="Описание задачи"
       (keydown)="onKeydown($event)"
       class="input edit-filed-content"
+      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
     ></textarea>
     <div class="row justify-content-between gx-3">
       <div class="col-auto">

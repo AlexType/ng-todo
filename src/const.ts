@@ -36,10 +36,8 @@ export const sortMenu: IMenu[] = [
   },
 ];
 
-export function checkDeadline(date: string | null = null): 'red' | 'green' {
-  if (!date) return 'red';
-
-  return new Date(date).getTime() < new Date().getTime() ? 'red' : 'green';
+export function checkDeadline(date: number): boolean {
+  return date < DateTime.now().startOf('day').toMillis();
 }
 
 export function sortTasks(

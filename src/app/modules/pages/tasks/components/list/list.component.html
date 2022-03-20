@@ -26,7 +26,7 @@
 
   <nz-divider></nz-divider>
 
-  <ng-container *ngIf="!total && !adding; else list">
+  <ng-container *ngIf="!total && !adding;">
     <nz-empty [nzNotFoundContent]="emptyRef">
       <ng-template #emptyRef>
         <span *ngIf="taskState.total">Задач нет</span>
@@ -35,13 +35,13 @@
     </nz-empty>
   </ng-container>
 
-  <ng-template #list>
+  <ng-container #list>
     <ul class="list">
       <li *ngFor="let task of taskState.tasks">
         <app-task [task]="task"></app-task>
       </li>
     </ul>
-  </ng-template>
+  </ng-container>
 
   <div *ngIf="adding; else btn">
     <app-edit-task (approve)="setAdding(false)" *ngIf="adding"></app-edit-task>

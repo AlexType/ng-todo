@@ -10,6 +10,7 @@ import { ITask } from 'src/app/models/task.interface';
 import { RemoveTask, UpdateTask } from 'src/app/store/actions/task.actions';
 import { selectMarkList } from 'src/app/store/selectors/mark.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
+import { checkDeadline } from 'src/const';
 
 import { TaskViewComponent } from '../task-view/task-view.component';
 
@@ -25,6 +26,7 @@ export class TaskComponent implements OnInit {
 
   form!: FormGroup;
   isEditing: boolean = false;
+  deadline: boolean = false;
   mark$!: Observable<IMark | undefined>;
 
   constructor(
@@ -35,7 +37,9 @@ export class TaskComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.task);
+    if (this.task.deadlineAt) {
+      this.deadline = checkDeadline(this.task.deadlineAt);
+    }
 
     this.mark$ = this.store$
       .select(selectMarkList)

@@ -56,13 +56,14 @@
           <button
             nz-button
             [routerLink]="['/tasks']"
+            style="justify-content: flex-start"
             (click)="toggleVisibleSidebar(false)"
           >
             <i
               nz-icon
               nzType="inbox"
               nzTheme="outline"
-              style="color: #246fe0"
+              style="color: #246fe0; font-size: 16px"
             ></i>
             Список задач
           </button>
@@ -71,14 +72,15 @@
           <button
             nz-button
             [routerLink]="['/tasks']"
-            [queryParams]="{deadline: 'Today'}"
+            style="justify-content: flex-start"
+            [queryParams]="{ deadline: 'Today' }"
             (click)="toggleVisibleSidebar(false)"
           >
             <i
               nz-icon
-              nzType="inbox"
+              nzType="calendar"
               nzTheme="outline"
-              style="color: #246fe0"
+              style="color: #24e06c; font-size: 16px"
             ></i>
             Сегодня
           </button>

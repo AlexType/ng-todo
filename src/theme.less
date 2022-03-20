@@ -68,6 +68,13 @@
   border-radius: 5px;
   background: #5e5e5e25;
 
+  &.deadline {
+    .anticon-calendar,
+    .ant-picker-input > input {
+      color: #ff7066;
+    }
+  }
+
   &:hover {
     background: #0202023d;
   }
@@ -168,19 +175,21 @@
     height: 22px;
     border-radius: 100%;
     position: relative;
+    border: 1px solid #434343;
 
     &::after {
       content: "";
       position: absolute;
       left: 50%;
       top: 50%;
-      background: #c5c5c5;
+      background: #434343;
       transform: translate(-50%, -50%);
-      width: 10px;
-      height: 10px;
+      width: 13px;
+      height: 13px;
       opacity: 0;
       border-radius: 100px;
       transition: 0.2s ease-in-out !important;
+      border: none;
     }
   }
 }
