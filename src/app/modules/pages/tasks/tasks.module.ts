@@ -9,8 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
-import { EditTaskModule } from 'src/app/components/edit-task/edit-task.module';
 
+import { EditTaskModule } from '../../shared/edit-task/edit-task.module';
 import { ListComponent } from './components/list/list.component';
 import { TaskViewComponent } from './components/task-view/task-view.component';
 import { TaskComponent } from './components/task/task.component';
