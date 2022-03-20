@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { AuthorizationRoutingModule } from './authorization-routing.module';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -11,10 +14,16 @@ import { RegistrationComponent } from './components/registration/registration.co
   declarations: [
     LayoutComponent,
     LogInComponent,
-    RegistrationComponent,
     RecoveryComponent,
+    RegistrationComponent,
   ],
-  imports: [CommonModule, AuthorizationRoutingModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AuthorizationRoutingModule,
+    NzInputModule,
+    NzButtonModule,
+  ],
   providers: [],
 })
 export class AuthorizationModule {}

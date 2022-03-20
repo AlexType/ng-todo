@@ -1,57 +1,41 @@
-<!-- <h2 class="text-center mb-4">Вход</h2>
+<h2 class="text-center mb-4">Вход</h2>
 
 <form>
   <div class="mb-3">
-    <p-inputMask
-      class="p-inputtext-sm"
-      placeholder="Ваш номер"
-      mask="+7 999 999 99 99"
-      [style]="{ width: '100%' }"
-    ></p-inputMask>
+    <input nz-input type="tel" placeholder="Ваш номер" />
   </div>
   <div>
-    <input
-      pPassword
-      type="password"
-      [feedback]="false"
-      class="p-inputtext-sm"
-      placeholder="Ваш пароль"
-      [style]="{ width: '100%' }"
-    />
+    <input nz-input type="password" placeholder="Ваш пароль" />
   </div>
 </form>
 
-<div class="mt-4">
-  <button
-    pButton
-    type="button"
-    label="Войти"
-    [style]="{ width: '100%' }"
-    class="p-button-sm p-button-success"
-  ></button>
+<div class="row justify-content-center mt-4">
+  <div class="col-auto">
+    <button nz-button>Войти</button>
+  </div>
 </div>
 
 <div class="mt-3">
   <div class="row justify-content-between align-items-center">
     <div class="col-auto">
-      <button
-        pButton
-        type="button"
-        label="Регистрация"
-        [style]="{ padding: 0 }"
+      <a
+        nz-button
+        nzType="link"
+        style="padding: 0"
         [routerLink]="['/authorization', 'registration']"
-        class="p-button-sm p-button-text"
-      ></button>
+      >
+        Регистрация
+      </a>
     </div>
     <div class="col-auto">
-      <button
-        pButton
-        type="button"
-        label="Забыли пароль ?"
-        [style]="{ padding: 0 }"
+      <a
+        nz-button
+        nzType="link"
+        style="padding: 0"
         [routerLink]="['/authorization', 'recovery']"
-        class="p-button-sm p-button-text"
-      ></button>
+      >
+        Забыли пароль ?
+      </a>
     </div>
   </div>
-</div> -->
+</div>
