@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DateTime } from 'luxon';
+import { map, Observable } from 'rxjs';
 import { ITask } from 'src/app/models/task.interface';
-import { UpdateTask } from 'src/app/store/actions/task.actions';
+import { selectTaskList } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 
 @Component({
@@ -12,38 +11,14 @@ import { IAppState } from 'src/app/store/state/_app.state';
   styleUrls: ['./task-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskViewComponent implements OnInit, OnDestroy {
-  @Input() task!: ITask;
+export class TaskViewComponent {
+  @Input() id!: string;
 
-  form!: FormGroup;
-  isEditing: boolean = false;
+  task$!: Observable<ITask | undefined>;
 
-  constructor(private fb: FormBuilder, private store$: Store<IAppState>) {}
-
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      checked: [this.task?.checked, Validators.required],
-      deadlineAt: [
-        this.task?.deadlineAt
-          ? DateTime.fromSeconds(this.task?.deadlineAt).toJSDate()
-          : null,
-      ],
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.store$.dispatch(
-      new UpdateTask({
-        ...this.task,
-        checked: this.form.value.checked,
-        deadlineAt: this.form.value.deadlineAt
-          ? DateTime.fromJSDate(this.form.value.deadlineAt).toSeconds()
-          : null,
-      })
-    );
-  }
-
-  setIsEditing(status: boolean): void {
-    this.isEditing = status;
+  constructor(private store$: Store<IAppState>) {
+    this.task$ = this.store$
+      .select(selectTaskList)
+      .pipe(map((tasks) => tasks.find((t) => t.id === this.id)));
   }
 }

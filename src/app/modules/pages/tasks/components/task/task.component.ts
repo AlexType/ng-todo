@@ -21,6 +21,7 @@ import { TaskViewComponent } from '../task-view/task-view.component';
 })
 export class TaskComponent implements OnInit {
   @Input() task!: ITask;
+  @Input() isRoot: boolean = true;
 
   form!: FormGroup;
   isEditing: boolean = false;
@@ -52,8 +53,9 @@ export class TaskComponent implements OnInit {
         new UpdateTask({
           ...this.task,
           checked: form.checked,
+          updatedAt: DateTime.now().toMillis(),
           deadlineAt: form.deadlineAt
-            ? DateTime.fromJSDate(form.deadlineAt).toSeconds()
+            ? DateTime.fromJSDate(form.deadlineAt).toMillis()
             : null,
         })
       );
@@ -61,15 +63,16 @@ export class TaskComponent implements OnInit {
   }
 
   createTaskViewModal(): void {
-    this.modalService.create({
-      nzContent: TaskViewComponent,
-      nzFooter: null,
-      nzWidth: '620px',
-      nzTitle: this.task.id,
-      nzComponentParams: {
-        task: this.task,
-      },
-    });
+    if (this.isRoot) {
+      this.modalService.create({
+        nzContent: TaskViewComponent,
+        nzFooter: null,
+        nzWidth: '620px',
+        nzComponentParams: {
+          id: this.task.id,
+        },
+      });
+    }
   }
 
   removeTask(): void {

@@ -1,41 +1,34 @@
-<div class="wrapper">
-  <div class="task">
-    <form [formGroup]="form">
-      <ng-container *ngIf="isEditing; else static">
-        <app-edit-task
-          [id]="task.id"
-          (approve)="setIsEditing(false)"
-        ></app-edit-task>
-      </ng-container>
+<div *nzModalTitle>
+  <nz-tag>
+    {{ (task$ | async)?.createdAt | date: "dd MMMM yyyy" }}
+  </nz-tag>
+</div>
 
-      <ng-template #static>
-        <div class="position-relative">
-          <div class="row">
-            <div class="col-auto">
-              <label nz-checkbox formControlName="checked"></label>
-            </div>
-            <div class="col" (click)="setIsEditing(true)">
-              <p class="title">{{ task.title }}</p>
-              <p class="description">{{ task.content }}</p>
-              <div class="row mt-2">
-                <div class="col-auto">
-                  <nz-date-picker
-                    nzAllowClear
-                    nzFormat="dd MMMM yy"
-                    nzPlaceHolder="Событие"
-                    formControlName="deadlineAt"
-                    (click)="$event.stopPropagation()"
-                  ></nz-date-picker>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </form>
+<div class="wrapper" *ngIf="task$ | async as task">
+  <app-task [task]="task" [isRoot]="false"></app-task>
+
+  <nz-divider></nz-divider>
+
+  <div class="row">
+    <div class="col-auto">
+      <nz-statistic
+        class="statistic-task"
+        nzTitle="Дата создания"
+        [nzValue]="(task.createdAt | date: 'dd MMMM yyyy, hh:mm:ss')!"
+      ></nz-statistic>
+    </div>
+    <div class="col-auto" *ngIf="task?.updatedAt">
+      <nz-statistic
+        class="statistic-task"
+        nzTitle="Последние изменение"
+        [nzValue]="(task.updatedAt | date: 'dd MMMM yyyy, hh:mm:ss')!"
+      ></nz-statistic>
+    </div>
   </div>
 
-  <div class="task-tabs mt-4">
+  <nz-divider></nz-divider>
+
+  <div class="task-tabs">
     <nz-tabset>
       <nz-tab nzTitle="Tab 1">Content of Tab Pane 1</nz-tab>
       <nz-tab nzTitle="Tab 2">Content of Tab Pane 2</nz-tab>

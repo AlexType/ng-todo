@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import ru from '@angular/common/locales/ru';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,7 @@ import { MarkEffects } from './store/effects/mark.effect';
 import { TaskEffects } from './store/effects/task.effect';
 import { appReducers } from './store/reducers/_app.reducers';
 
-registerLocaleData(ru);
+registerLocaleData(ru, 'ru');
 
 const ngZorroConfig: NzConfig = {
   message: { nzTop: 40, nzMaxStack: 3 },
@@ -70,6 +70,7 @@ const ngZorroConfig: NzConfig = {
     NzMessageService,
     LocalStorageService,
     { provide: NZ_I18N, useValue: ru_RU },
+    { provide: LOCALE_ID, useValue: 'ru' },
     { provide: NZ_CONFIG, useValue: ngZorroConfig },
   ],
   bootstrap: [AppComponent],

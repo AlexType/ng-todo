@@ -1,22 +1,22 @@
 <div class="edit-filed">
   <form [formGroup]="form">
     <textarea
-      rows="1"
+      #titleRef
       nz-input
-      class="input edit-filed-title"
+      autofocus
+      nzAutosize
       formControlName="title"
       placeholder="Название задачи"
-      [nzAutosize]="true"
       (keydown)="onKeydown($event)"
+      class="input edit-filed-title"
     ></textarea>
     <textarea
-      rows="1"
       nz-input
-      class="input edit-filed-content"
+      nzAutosize
       formControlName="content"
       placeholder="Описание задачи"
-      [nzAutosize]="true"
       (keydown)="onKeydown($event)"
+      class="input edit-filed-content"
     ></textarea>
     <div class="row justify-content-between gx-3">
       <div class="col-auto">
@@ -31,9 +31,9 @@
         <nz-select
           nzShowSearch
           nzAllowClear
+          nzPlaceHolder="Тег"
           style="width: 134px"
           formControlName="markId"
-          nzPlaceHolder="Тег"
           [nzDropdownMatchSelectWidth]="false"
           [nzDropdownRender]="renderTemplate"
         >
@@ -56,16 +56,16 @@
               <div class="row g-0">
                 <div class="col">
                   <input
-                    type="text"
                     nz-input
+                    type="text"
                     #inputElement
                     placeholder="Добавить проект"
                   />
                 </div>
                 <div class="col-auto">
                   <button
-                    nzType="text"
                     nz-button
+                    nzType="text"
                     (click)="addNewMark(inputElement)"
                   >
                     <i nz-icon nzType="plus" nzTheme="outline"></i>
@@ -84,8 +84,8 @@
   <ng-container *ngIf="id; else addBtn">
     <div class="col-auto">
       <button
-        nz-button
         nzDanger
+        nz-button
         [disabled]="!form.valid"
         (click)="updateTask()"
       >
@@ -96,8 +96,8 @@
   <ng-template #addBtn>
     <div class="col-auto">
       <button
-        nz-button
         nzDanger
+        nz-button
         [disabled]="!form.valid"
         (click)="addNewTask()"
       >

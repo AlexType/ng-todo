@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
@@ -19,9 +29,11 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./edit-task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditTaskComponent {
+export class EditTaskComponent implements OnInit, AfterViewInit {
   @Input() id: string | undefined;
   @Output() approve = new EventEmitter<void>();
+
+  @ViewChild('titleRef') titleRef!: ElementRef<HTMLTextAreaElement>;
 
   form!: FormGroup;
   task: ITask | undefined;
@@ -53,6 +65,11 @@ export class EditTaskComponent {
       checked: [this.task?.checked || false, Validators.required],
       title: [this.task?.title || '', [Validators.required, Validators.min(1)]],
     });
+    console.log(this.titleRef);
+  }
+
+  ngAfterViewInit(): void {
+    this.titleRef.nativeElement.focus();
   }
 
   onKeydown(event: KeyboardEvent): void {
@@ -93,10 +110,10 @@ export class EditTaskComponent {
       ...this.task,
       ...this.form.value,
       id: uuidv4(),
-      createdAt: DateTime.now().toSeconds(),
-      updatedAt: DateTime.now().toSeconds(),
+      createdAt: DateTime.now().toMillis(),
+      updatedAt: DateTime.now().toMillis(),
       deadlineAt: this.form.value.deadlineAt
-        ? DateTime.fromJSDate(this.form.value.deadlineAt).toSeconds()
+        ? DateTime.fromJSDate(this.form.value.deadlineAt).toMillis()
         : null,
     };
 
@@ -112,7 +129,7 @@ export class EditTaskComponent {
       ...this.task,
       ...this.form.value,
       deadlineAt: this.form.value.deadlineAt
-        ? DateTime.fromJSDate(this.form.value.deadlineAt).toSeconds()
+        ? DateTime.fromJSDate(this.form.value.deadlineAt).toMillis()
         : null,
       updatedAt: new Date().getTime(),
     };
