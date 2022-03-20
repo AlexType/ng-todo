@@ -6,7 +6,8 @@
       class="input edit-filed-title"
       formControlName="title"
       placeholder="Название задачи"
-      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
+      [nzAutosize]="true"
+      (keydown)="onKeydown($event)"
     ></textarea>
     <textarea
       rows="1"
@@ -14,7 +15,8 @@
       class="input edit-filed-content"
       formControlName="content"
       placeholder="Описание задачи"
-      [nzAutosize]="{ minRows: 1, maxRows: 6 }"
+      [nzAutosize]="true"
+      (keydown)="onKeydown($event)"
     ></textarea>
     <div class="row justify-content-between gx-3">
       <div class="col-auto">
@@ -81,14 +83,24 @@
 <div class="row align-items-center gx-2 mt-3">
   <ng-container *ngIf="id; else addBtn">
     <div class="col-auto">
-      <button nz-button nzDanger [disabled]="!form.valid" (click)="updateTask()">
+      <button
+        nz-button
+        nzDanger
+        [disabled]="!form.valid"
+        (click)="updateTask()"
+      >
         Сохранить
       </button>
     </div>
   </ng-container>
   <ng-template #addBtn>
     <div class="col-auto">
-      <button nz-button nzDanger [disabled]="!form.valid" (click)="addNewTask()">
+      <button
+        nz-button
+        nzDanger
+        [disabled]="!form.valid"
+        (click)="addNewTask()"
+      >
         Добавить
       </button>
     </div>

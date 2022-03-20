@@ -8,49 +8,46 @@
     </ng-container>
 
     <ng-template #static>
-      <div class="position-relative">
-        <div class="row" (click)="createTaskViewModal()">
-          <div class="col-auto">
-            <label nz-checkbox formControlName="checked"></label>
-          </div>
-          <div class="col">
+      <div class="row" (click)="createTaskViewModal()">
+        <div class="col-auto">
+          <label nz-checkbox formControlName="checked"></label>
+        </div>
+        <div class="col">
+          <div class="position-relative">
             <p class="title">{{ task.title }}</p>
             <p class="description">{{ task.content }}</p>
-            <div class="row mt-2">
-              <div class="col-auto">
-                <nz-date-picker
-                  nzAllowClear
-                  nzFormat="dd MMMM yy"
-                  nzPlaceHolder="Событие"
-                  formControlName="deadlineAt"
-                  (click)="$event.stopPropagation()"
-                ></nz-date-picker>
-              </div>
-              <div class="col-auto" *ngIf="mark$ | async as mark">
-                <nz-tag class="mark-task">
-                  <i
-                    nz-icon
-                    style="font-size: 16px"
-                    [nzType]="mark.icon?.type || 'aim'"
-                    [ngStyle]="{ color: mark.icon?.color || 'gray' }"
-                  ></i>
-                  {{ mark.title }}
-                </nz-tag>
-              </div>
+
+            <div class="controllers">
+              <button nz-button nzType="text" (click)="setIsEditing(true)">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </button>
+              <button nz-button nzType="text" (click)="removeTask()">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
             </div>
           </div>
-        </div>
-
-        <div class="controllers">
-          <button nz-button nzType="text" (click)="setIsEditing(true)">
-            <i nz-icon nzType="edit" nzTheme="outline"></i>
-          </button>
-          <button nz-button nzType="text">
-            <i nz-icon nzType="message" nzTheme="outline"></i>
-          </button>
-          <button nz-button nzType="text" (click)="removeTask()">
-            <i nz-icon nzType="delete" nzTheme="outline"></i>
-          </button>
+          <div class="row justify-content-between mt-2">
+            <div class="col-auto">
+              <nz-date-picker
+                nzAllowClear
+                nzFormat="dd MMMM yy"
+                nzPlaceHolder="Событие"
+                formControlName="deadlineAt"
+                (click)="$event.stopPropagation()"
+              ></nz-date-picker>
+            </div>
+            <div class="col-auto" *ngIf="mark$ | async as mark">
+              <nz-tag class="mark-task">
+                <i
+                  nz-icon
+                  style="font-size: 16px"
+                  [nzType]="mark.icon?.type || 'aim'"
+                  [ngStyle]="{ color: mark.icon?.color || 'gray' }"
+                ></i>
+                {{ mark.title }}
+              </nz-tag>
+            </div>
+          </div>
         </div>
       </div>
     </ng-template>

@@ -55,6 +55,24 @@ export class EditTaskComponent {
     });
   }
 
+  onKeydown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'Enter':
+        if (event.key === 'Enter') {
+          if (this.id) {
+            this.updateTask();
+          } else {
+            this.addNewTask();
+          }
+        }
+        break;
+
+      case 'Escape':
+        this.cancel();
+        break;
+    }
+  }
+
   addNewMark(input: HTMLInputElement): void {
     this.store$.dispatch(
       new AddMark({

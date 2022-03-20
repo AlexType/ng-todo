@@ -9,6 +9,8 @@
   line-height: 21px;
   border-bottom: none;
   resize: none;
+  padding: 1px 0;
+  overflow: hidden;
 
   &:focus {
     outline: none;
