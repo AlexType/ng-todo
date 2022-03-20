@@ -83,3 +83,20 @@ export class TaskComponent implements OnInit {
     this.isEditing = status;
   }
 }
+
+// this.data$ = this.store$.select(selectTaskList).pipe(
+//   map((tasks) => tasks.find((t) => t.id === this.id)),
+//   mergeMap((task) =>
+//     this.store$.select(selectMarkList).pipe(
+//       map((marks) => ({
+//         task: task as ITask,
+//         mark: marks.find((m) => m.id === task?.markId),
+//       }))
+//     )
+//   ),
+//   tap(({ task }) => {
+//     this.deadline = task?.deadlineAt
+//       ? checkDeadline(task?.deadlineAt)
+//       : null;
+//   })
+// );

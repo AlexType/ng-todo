@@ -60,10 +60,15 @@
         <li>
           <button
             nz-button
-            nzType="text"
             [routerLink]="['/tasks']"
             (click)="toggleVisibleSidebar(false)"
           >
+            <i
+              nz-icon
+              nzType="inbox"
+              nzTheme="outline"
+              style="color: #246fe0"
+            ></i>
             Входящие
           </button>
         </li>
