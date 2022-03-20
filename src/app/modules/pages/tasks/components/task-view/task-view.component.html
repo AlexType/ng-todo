@@ -14,14 +14,14 @@
       <nz-statistic
         class="statistic-task"
         nzTitle="Дата создания"
-        [nzValue]="(task.createdAt | date: 'dd MMMM yyyy, hh:mm:ss')!"
+        [nzValue]="(task.createdAt | date: 'dd MMMM yyyy, HH:mm:ss')!"
       ></nz-statistic>
     </div>
     <div class="col-auto" *ngIf="task?.updatedAt">
       <nz-statistic
         class="statistic-task"
         nzTitle="Последние изменение"
-        [nzValue]="(task.updatedAt | date: 'dd MMMM yyyy, hh:mm:ss')!"
+        [nzValue]="(task.updatedAt | date: 'dd MMMM yyyy, HH:mm:ss')!"
       ></nz-statistic>
     </div>
   </div>

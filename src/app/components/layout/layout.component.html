@@ -46,7 +46,7 @@
   <nz-drawer
     [nzClosable]="false"
     nzPlacement="left"
-    nzWidth="250px"
+    nzWidth="276px"
     [(nzVisible)]="sidebarVisible"
     (nzOnClose)="toggleVisibleSidebar()"
   >
@@ -56,7 +56,7 @@
           <button
             nz-button
             [routerLink]="['/tasks']"
-            style="justify-content: flex-start"
+            style="justify-content: space-between"
             (click)="toggleVisibleSidebar(false)"
           >
             <i
@@ -72,7 +72,7 @@
           <button
             nz-button
             [routerLink]="['/tasks']"
-            style="justify-content: flex-start"
+            style="justify-content: space-between"
             [queryParams]="{ deadline: 'Today' }"
             (click)="toggleVisibleSidebar(false)"
           >
@@ -80,7 +80,7 @@
               nz-icon
               nzType="calendar"
               nzTheme="outline"
-              style="color: #24e06c; font-size: 16px"
+              style="color: #24e06c; font-size: 14px"
             ></i>
             Сегодня
           </button>
