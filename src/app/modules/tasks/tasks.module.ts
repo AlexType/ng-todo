@@ -20,12 +20,12 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
-import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
 import { EditTaskComponent } from './components/edit-task/edit-task.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { ListComponent } from './components/list/list.component';
+import { TaskCreateModalComponent } from './components/modals/task-create-modal/task-create-modal.component';
+import { TaskViewModalComponent } from './components/modals/task-view-modal/task-view-modal.component';
 import { SearchTaskComponent } from './components/search-task/search-task.component';
-import { TaskViewComponent } from './components/task-view/task-view.component';
 import { TaskComponent } from './components/task/task.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 
@@ -34,10 +34,10 @@ import { TasksRoutingModule } from './tasks-routing.module';
     ListComponent,
     TaskComponent,
     LayoutComponent,
-    TaskViewComponent,
     EditTaskComponent,
     SearchTaskComponent,
-    AddTaskDialogComponent,
+    TaskViewModalComponent,
+    TaskCreateModalComponent,
   ],
   imports: [
     CommonModule,

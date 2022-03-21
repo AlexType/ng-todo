@@ -19,10 +19,18 @@
 
             <div class="controllers">
               <button nz-button nzType="text" (click)="setIsEditing(true)">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
+                <i nz-icon>
+                  <svg>
+                    <use xlink:href="/assets/sprites.svg#pen"></use>
+                  </svg>
+                </i>
               </button>
               <button nz-button nzType="text" (click)="removeTask()">
-                <i nz-icon nzType="delete" nzTheme="outline"></i>
+                <i nz-icon>
+                  <svg>
+                    <use xlink:href="/assets/sprites.svg#trash"></use>
+                  </svg>
+                </i>
               </button>
             </div>
           </div>
@@ -39,12 +47,15 @@
             </div>
             <div class="col-auto" *ngIf="mark$ | async as mark">
               <nz-tag class="mark-task">
-                <i
-                  nz-icon
-                  style="font-size: 14px"
-                  [nzType]="mark.icon?.type || 'aim'"
-                  [ngStyle]="{ color: mark.icon?.color || 'gray' }"
-                ></i>
+                <i nz-icon [ngStyle]="{ color: mark.icon?.color || 'gray' }">
+                  <svg>
+                    <use
+                      [attr.xlink:href]="
+                        '/assets/sprites.svg#' + (mark.icon?.type || 'circle')
+                      "
+                    ></use>
+                  </svg>
+                </i>
                 {{ mark.title }}
               </nz-tag>
             </div>

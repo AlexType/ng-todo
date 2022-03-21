@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { DateTime } from 'luxon';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { map, Observable, of, timer } from 'rxjs';
 
-import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
+import { TaskCreateModalComponent } from '../modals/task-create-modal/task-create-modal.component';
 
 @Component({
   selector: 'app-layout',
@@ -9,13 +11,18 @@ import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.compo
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
+  today: number = DateTime.now().get('day');
   sidebarVisible: boolean = false;
 
-  constructor(private modalService: NzModalService) {}
+  realTime$: Observable<number> = of(0);
+
+  constructor(private modalService: NzModalService) {
+    this.realTime$ = timer(0, 1000).pipe(map(() => DateTime.now().toMillis()));
+  }
 
   openModal(): void {
     this.modalService.create({
-      nzContent: AddTaskDialogComponent,
+      nzContent: TaskCreateModalComponent,
       nzFooter: null,
       nzTitle: 'Добавить задачу',
     });

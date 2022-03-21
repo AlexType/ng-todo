@@ -9,7 +9,7 @@ import { selectMarkList } from 'src/app/store/selectors/mark.selector';
 import { selectTaskList } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 
-import { TaskViewComponent } from '../task-view/task-view.component';
+import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-modal.component';
 
 @Component({
   selector: 'app-search-task',
@@ -46,7 +46,7 @@ export class SearchTaskComponent implements OnInit {
     this.clear();
 
     this.modalService.create({
-      nzContent: TaskViewComponent,
+      nzContent: TaskViewModalComponent,
       nzFooter: null,
       nzWidth: '620px',
       nzComponentParams: {

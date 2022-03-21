@@ -43,12 +43,15 @@
             [nzLabel]="mark.title"
             *ngFor="let mark of marks$ | async"
           >
-            <i
-              nz-icon
-              style="font-size: 16px"
-              [nzType]="mark.icon?.type || 'aim'"
-              [ngStyle]="{ color: mark.icon?.color || 'gray' }"
-            ></i>
+            <i nz-icon [ngStyle]="{ color: mark.icon?.color || 'gray' }">
+              <svg>
+                <use
+                  [attr.xlink:href]="
+                    '/assets/sprites.svg#' + (mark.icon?.type || 'circle')
+                  "
+                ></use>
+              </svg>
+            </i>
             {{ mark.title }}
           </nz-option>
           <ng-template #renderTemplate>
@@ -68,7 +71,11 @@
                     nzType="text"
                     (click)="addNewMark(inputElement)"
                   >
-                    <i nz-icon nzType="plus" nzTheme="outline"></i>
+                    <i nz-icon>
+                      <svg>
+                        <use xlink:href="/assets/sprites.svg#plus"></use>
+                      </svg>
+                    </i>
                   </button>
                 </div>
               </div>

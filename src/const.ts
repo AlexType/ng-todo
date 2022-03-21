@@ -2,11 +2,11 @@ import { DateTime } from 'luxon';
 
 import { ITask } from './app/models/task.interface';
 
-export enum TaskTypeEnum {
-  INCOMING = 'incoming',
-  UPCOMING = 'upcoming',
-  TODAY = 'today',
-}
+// export enum TaskTypeEnum {
+//   INCOMING = 'incoming',
+//   UPCOMING = 'upcoming',
+//   TODAY = 'today',
+// }
 
 export enum ESortType {
   CreatedAtAsc = 'CreatedAt-asc',
@@ -15,6 +15,7 @@ export enum ESortType {
 
 export enum EFilterType {
   Today = 'Today',
+  Upcoming = 'Upcoming',
 }
 
 export interface IMenu {
@@ -61,10 +62,16 @@ export function filterTasks(tasks: ITask[], filterType: string): ITask[] {
     case EFilterType.Today:
       return tasks.filter(
         (t) =>
-          t.deadlineAt &&
           !t.checked &&
+          t.deadlineAt &&
           t.deadlineAt > DateTime.now().startOf('day').toMillis() &&
           t.deadlineAt < DateTime.now().endOf('day').toMillis()
+      );
+
+    case EFilterType.Upcoming:
+      return tasks.filter(
+        (t) =>
+          !t.checked && t.deadlineAt && t.deadlineAt > DateTime.now().toMillis()
       );
 
     default:

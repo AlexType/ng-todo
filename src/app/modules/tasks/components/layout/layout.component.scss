@@ -24,3 +24,11 @@
     text-align: left;
   }
 }
+
+.today-ico {
+  font-size: 7px;
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 3px);
+  transform: translate(-50%, -50%);
+}

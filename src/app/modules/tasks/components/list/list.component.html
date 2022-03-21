@@ -26,7 +26,7 @@
 
   <nz-divider></nz-divider>
 
-  <ng-container *ngIf="!total && !adding;">
+  <ng-container *ngIf="!total && !adding">
     <nz-empty [nzNotFoundContent]="emptyRef">
       <ng-template #emptyRef>
         <span *ngIf="taskState.total">Задач нет</span>
@@ -50,7 +50,11 @@
   <ng-template #btn>
     <nz-divider></nz-divider>
     <button nz-button (click)="setAdding(true)">
-      <i nz-icon nzType="plus" nzTheme="outline" style="color: #ff7066"></i>
+      <i nz-icon style="color: #ff7066">
+        <svg>
+          <use xlink:href="/assets/sprites.svg#plus"></use>
+        </svg>
+      </i>
       Добавить задачу
     </button>
   </ng-template>

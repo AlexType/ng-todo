@@ -12,7 +12,7 @@ import { selectMarkList } from 'src/app/store/selectors/mark.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 import { checkDeadline } from 'src/const';
 
-import { TaskViewComponent } from '../task-view/task-view.component';
+import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-modal.component';
 
 @Component({
   selector: 'app-task',
@@ -71,7 +71,7 @@ export class TaskComponent implements OnInit {
   createTaskViewModal(): void {
     if (this.isRoot) {
       this.modalService.create({
-        nzContent: TaskViewComponent,
+        nzContent: TaskViewModalComponent,
         nzFooter: null,
         nzWidth: '620px',
         nzComponentParams: {
