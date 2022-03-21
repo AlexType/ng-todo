@@ -1,0 +1,10 @@
+.wrapper {
+  position: relative;
+}
+
+.result {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 5px);
+  background: #5e5e5e25;
+}

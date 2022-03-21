@@ -65,7 +65,6 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
       checked: [this.task?.checked || false, Validators.required],
       title: [this.task?.title || '', [Validators.required, Validators.min(1)]],
     });
-    console.log(this.titleRef);
   }
 
   ngAfterViewInit(): void {

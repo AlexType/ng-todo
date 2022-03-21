@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { AddTaskDialogComponent } from './components/add-task-dialog/add-task-dialog.component';
+import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
 
 @Component({
   selector: 'app-layout',

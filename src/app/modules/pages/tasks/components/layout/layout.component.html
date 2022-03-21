@@ -14,12 +14,7 @@
             </button>
           </div>
           <div class="col-auto d-none d-md-block ps-2">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" nz-input placeholder="Искать задачу" />
-            </nz-input-group>
-            <ng-template #suffixIconSearch>
-              <i nz-icon nzType="search"></i>
-            </ng-template>
+            <app-search-task></app-search-task>
           </div>
         </div>
       </div>

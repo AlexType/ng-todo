@@ -1,0 +1,54 @@
+<div class="wrapper">
+  <div class="search">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input
+        nz-input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Искать задачу"
+        (ngModelChange)="onSearch()"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search"></i>
+    </ng-template>
+  </div>
+  <div class="result">
+    <nz-list nzBordered nzSize="small">
+      <nz-list-item
+        style="cursor: pointer"
+        *ngFor="let item of tasks$ | async"
+        (click)="createTaskViewModal(item.id)"
+      >
+        <div class="row align-items-center flex-nowrap">
+          <div class="col">
+            <div class="row align-items-center flex-nowrap">
+              <div class="col-auto">
+                <label
+                  nz-checkbox
+                  disabled="true"
+                  class="checkbox-sm pb-1"
+                  [ngModel]="item.checked"
+                ></label>
+              </div>
+              <div class="col-auto">
+                {{ item.title }}
+              </div>
+            </div>
+          </div>
+          <div class="col" *ngIf="item.markId && getMark(item.markId) as mark">
+            <nz-tag class="mark-task sm">
+              <i
+                nz-icon
+                style="font-size: 12px"
+                [nzType]="mark.icon?.type || 'aim'"
+                [ngStyle]="{ color: mark.icon?.color || 'gray' }"
+              ></i>
+              {{ mark.title }}
+            </nz-tag>
+          </div>
+        </div>
+      </nz-list-item>
+    </nz-list>
+  </div>
+</div>

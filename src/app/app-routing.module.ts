@@ -2,19 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundComponent } from './components/404/404.component';
-import { LayoutComponent } from './components/layout/layout.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: LayoutComponent,
-    children: [
-      {
-        path: 'tasks',
-        loadChildren: () =>
-          import('./modules/pages/tasks/tasks.module').then((m) => m.TasksModule),
-      },
-    ],
+    path: 'tasks',
+    loadChildren: () =>
+      import('./modules/pages/tasks/tasks.module').then((m) => m.TasksModule),
   },
   {
     path: 'authorization',

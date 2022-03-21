@@ -6,7 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./404.component.scss'],
 })
 export class NotFoundComponent {
-  constructor() {
-    console.log(4);
-  }
+  constructor() {}
 }
