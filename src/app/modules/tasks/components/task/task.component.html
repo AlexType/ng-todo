@@ -8,7 +8,7 @@
     </ng-container>
 
     <ng-template #static>
-      <div class="row" (click)="createTaskViewModal()">
+      <div class="row gx-3" (click)="createTaskViewModal()">
         <div class="col-auto">
           <label nz-checkbox formControlName="checked"></label>
         </div>
@@ -26,7 +26,7 @@
               </button>
             </div>
           </div>
-          <div class="row justify-content-between mt-2">
+          <div class="row align-items-end justify-content-between mt-1">
             <div class="col-auto">
               <nz-date-picker
                 nzAllowClear
@@ -41,7 +41,7 @@
               <nz-tag class="mark-task">
                 <i
                   nz-icon
-                  style="font-size: 16px"
+                  style="font-size: 14px"
                   [nzType]="mark.icon?.type || 'aim'"
                   [ngStyle]="{ color: mark.icon?.color || 'gray' }"
                 ></i>

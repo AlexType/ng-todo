@@ -22,17 +22,17 @@
       >
         <div class="row align-items-center flex-nowrap">
           <div class="col">
-            <div class="row align-items-center flex-nowrap">
+            <div class="row align-items-center flex-nowrap gx-2">
               <div class="col-auto">
                 <label
                   nz-checkbox
                   disabled="true"
-                  class="checkbox-sm pb-1"
+                  class="checkbox-sm pb-2"
                   [ngModel]="item.checked"
                 ></label>
               </div>
               <div class="col-auto">
-                {{ item.title }}
+                <p class="title">{{ item.title }}</p>
               </div>
             </div>
           </div>

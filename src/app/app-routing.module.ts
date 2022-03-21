@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () =>
-      import('./modules/pages/tasks/tasks.module').then((m) => m.TasksModule),
+      import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
   },
   {
     path: 'authorization',
     loadChildren: () =>
-      import('./modules/pages/authorization/authorization.module').then(
+      import('./modules/authorization/authorization.module').then(
         (m) => m.AuthorizationModule
       ),
   },
