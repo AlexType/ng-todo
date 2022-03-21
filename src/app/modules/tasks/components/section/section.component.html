@@ -1,0 +1,55 @@
+<nz-collapse nzGhost>
+  <nz-collapse-panel
+    *ngFor="let section of sections"
+    [nzHeader]="section.title"
+    [nzExtra]="extraTpl"
+  >
+    <ul class="list">
+      <li *ngFor="let task of getTasks(section) | async">
+        <app-task [task]="task"></app-task>
+      </li>
+    </ul>
+
+    <ng-template #extraTpl>
+      <button
+        nz-button
+        nz-dropdown
+        nzType="text"
+        nzTrigger="click"
+        [nzDropdownMenu]="menu"
+        (click)="$event.stopPropagation()"
+      >
+        <i nz-icon>
+          <svg>
+            <use xlink:href="/assets/sprites.svg#ellipsis-vertical"></use>
+          </svg>
+        </i>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item>
+              <i nz-icon class="me-2">
+                <svg>
+                  <use xlink:href="/assets/sprites.svg#pen"></use>
+                </svg>
+              </i>
+              Редактировать
+            </li>
+            <li
+              nz-menu-item
+              nz-popconfirm
+              (nzOnConfirm)="deleteSection(section.id)"
+              nzPopconfirmTitle="Вы точно хотите удалить раздел ?"
+            >
+              <i nz-icon class="me-2" style="color: #ff7066">
+                <svg>
+                  <use xlink:href="/assets/sprites.svg#trash"></use>
+                </svg>
+              </i>
+              Удалить
+            </li>
+          </ul>
+        </nz-dropdown-menu>
+      </button>
+    </ng-template>
+  </nz-collapse-panel>
+</nz-collapse>

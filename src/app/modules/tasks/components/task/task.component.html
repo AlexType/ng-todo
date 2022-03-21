@@ -45,19 +45,37 @@
                 [ngClass]="{ deadline: deadline }"
               ></nz-date-picker>
             </div>
-            <div class="col-auto" *ngIf="mark$ | async as mark">
-              <nz-tag class="mark-task">
-                <i nz-icon [ngStyle]="{ color: mark.icon?.color || 'gray' }">
-                  <svg>
-                    <use
-                      [attr.xlink:href]="
-                        '/assets/sprites.svg#' + (mark.icon?.type || 'circle')
-                      "
-                    ></use>
-                  </svg>
-                </i>
-                {{ mark.title }}
-              </nz-tag>
+            <div class="col-auto">
+              <div class="row gx-2">
+                <div class="col-auto" *ngIf="mark$ | async as mark">
+                  <nz-tag class="mark-task">
+                    <i
+                      nz-icon
+                      [ngStyle]="{ color: mark.icon?.color || 'gray' }"
+                    >
+                      <svg>
+                        <use
+                          [attr.xlink:href]="
+                            '/assets/sprites.svg#' +
+                            (mark.icon?.type || 'circle')
+                          "
+                        ></use>
+                      </svg>
+                    </i>
+                    {{ mark.title }}
+                  </nz-tag>
+                </div>
+                <div class="col-auto" *ngIf="section$ | async as section">
+                  <nz-tag class="mark-task">
+                    <i nz-icon>
+                      <svg>
+                        <use xlink:href="/assets/sprites.svg#section"></use>
+                      </svg>
+                    </i>
+                    {{ section.title }}
+                  </nz-tag>
+                </div>
+              </div>
             </div>
           </div>
         </div>

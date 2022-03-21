@@ -58,4 +58,14 @@
       Добавить задачу
     </button>
   </ng-template>
+
+  <ng-container *ngIf="sections$ | async as sections">
+    <div class="collapse-tasks" *ngIf="sections?.length">
+      <nz-divider></nz-divider>
+
+      <app-section [sections]="(sections$ | async) || []"></app-section>
+    </div>
+  </ng-container>
+
+  <app-section-create></app-section-create>
 </div>

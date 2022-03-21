@@ -19,3 +19,8 @@ export const selectMarkList = createSelector(
   selectMarks,
   (state: IMarkState) => state.marks
 );
+
+export const selectSectionsList = createSelector(
+  selectMarks,
+  (state: IMarkState) => state.sections
+);

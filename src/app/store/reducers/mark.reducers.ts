@@ -30,13 +30,38 @@ export const markReducers = (
     case EMarkActions.GetMarks:
       return {
         ...state,
-        marks: action.payload.marks,
+        ...action.payload.markState,
       };
 
     case EMarkActions.MarksGetTotal:
       return {
         ...state,
         total: action.payload.total,
+      };
+
+    case EMarkActions.AddSection:
+      return {
+        ...state,
+        sections: [...state.sections, action.payload.section],
+      };
+
+    case EMarkActions.DeleteSection:
+      return {
+        ...state,
+        sections: state.sections.filter(
+          (section) => section.id !== action.payload.id
+        ),
+      };
+
+    case EMarkActions.UpdateSection:
+      return {
+        ...state,
+        sections: [
+          ...state.sections.filter(
+            (section) => section.id !== action.payload.section.id
+          ),
+          action.payload.section,
+        ],
       };
 
     default:

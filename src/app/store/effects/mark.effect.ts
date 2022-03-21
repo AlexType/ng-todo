@@ -5,7 +5,7 @@ import { of, switchMap, withLatestFrom } from 'rxjs';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { EMarkActions, MarksGetTotal } from '../actions/mark.actions';
-import { selectMarkList } from '../selectors/mark.selector';
+import { selectMarkState } from '../selectors/mark.selector';
 import { IAppState } from '../state/_app.state';
 
 @Injectable()
@@ -22,13 +22,17 @@ export class MarkEffects {
         EMarkActions.AddMark,
         EMarkActions.GetMarks,
         EMarkActions.DeleteMark,
-        EMarkActions.UpdateMark
+        EMarkActions.UpdateMark,
+        EMarkActions.AddSection,
+        EMarkActions.GetSections,
+        EMarkActions.DeleteSection,
+        EMarkActions.UpdateSection
       ),
-      withLatestFrom(this._store$.pipe(select(selectMarkList))),
+      withLatestFrom(this._store$.pipe(select(selectMarkState))),
       switchMap(([, marks]) => {
         this._ls.setMark(marks);
 
-        return of(new MarksGetTotal({ total: marks.length }));
+        return of(new MarksGetTotal({ total: marks.marks.length }));
       })
     )
   );

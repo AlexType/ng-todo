@@ -15,10 +15,11 @@ import { DateTime } from 'luxon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, of } from 'rxjs';
 import { IMark } from 'src/app/models/mark.interface';
+import { ISection } from 'src/app/models/section.interface';
 import { ITask } from 'src/app/models/task.interface';
-import { AddMark } from 'src/app/store/actions/mark.actions';
+import { AddMark, AddSection } from 'src/app/store/actions/mark.actions';
 import { AddTask, UpdateTask } from 'src/app/store/actions/task.actions';
-import { selectMarkList } from 'src/app/store/selectors/mark.selector';
+import { selectMarkList, selectSectionsList } from 'src/app/store/selectors/mark.selector';
 import { selectTaskList } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,6 +39,7 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
   form!: FormGroup;
   task: ITask | undefined;
   marks$: Observable<IMark[]> = of([]);
+  sections$: Observable<ISection[]> = of([]);
 
   constructor(
     private fb: FormBuilder,
@@ -53,10 +55,12 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
     }
 
     this.marks$ = this.store$.select(selectMarkList);
+    this.sections$ = this.store$.select(selectSectionsList);
 
     this.form = this.fb.group({
       content: [this.task?.content || ''],
       markId: [this.task?.markId || null],
+      sectionId: [this.task?.sectionId || null],
       deadlineAt: [
         this.task?.deadlineAt
           ? DateTime.fromMillis(this.task.deadlineAt).toJSDate()
@@ -93,6 +97,17 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
     this.store$.dispatch(
       new AddMark({
         mark: {
+          id: uuidv4(),
+          title: input.value,
+        },
+      })
+    );
+  }
+
+  addNewSection(input: HTMLInputElement): void {
+    this.store$.dispatch(
+      new AddSection({
+        section: {
           id: uuidv4(),
           title: input.value,
         },

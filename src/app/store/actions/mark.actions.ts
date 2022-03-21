@@ -1,5 +1,8 @@
 import { Action } from '@ngrx/store';
 import { IMark } from 'src/app/models/mark.interface';
+import { ISection } from 'src/app/models/section.interface';
+
+import { IMarkState } from '../state/mark.state';
 
 export enum EMarkActions {
   AddMark = '[Mark] Add Mark',
@@ -7,6 +10,11 @@ export enum EMarkActions {
   UpdateMark = '[Mark] Update Mark',
   GetMarks = '[Mark] Get Marks',
   MarksGetTotal = '[Mark] Marks Get Total',
+
+  AddSection = '[Section] Add Section',
+  DeleteSection = '[Section] Delete Section',
+  UpdateSection = '[Section] Update Section',
+  GetSections = '[Section] Get Sections',
 }
 
 export class AddMark implements Action {
@@ -26,7 +34,7 @@ export class UpdateMark implements Action {
 
 export class GetMarks implements Action {
   public readonly type = EMarkActions.GetMarks;
-  constructor(public payload: { marks: IMark[] }) {}
+  constructor(public payload: { markState: IMarkState }) {}
 }
 
 export class MarksGetTotal implements Action {
@@ -38,9 +46,27 @@ export class MarksGetTotal implements Action {
   ) {}
 }
 
+export class AddSection implements Action {
+  public readonly type = EMarkActions.AddSection;
+  constructor(public payload: { section: ISection }) {}
+}
+
+export class DeleteSection implements Action {
+  public readonly type = EMarkActions.DeleteSection;
+  constructor(public payload: { id: string }) {}
+}
+
+export class UpdateSection implements Action {
+  public readonly type = EMarkActions.UpdateSection;
+  constructor(public payload: { section: ISection }) {}
+}
+
 export type MarkActions =
   | AddMark
   | DeleteMark
   | UpdateMark
   | GetMarks
-  | MarksGetTotal;
+  | MarksGetTotal
+  | AddSection
+  | DeleteSection
+  | UpdateSection;

@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable, of, tap } from 'rxjs';
+import { ISection } from 'src/app/models/section.interface';
+import { selectSectionsList } from 'src/app/store/selectors/mark.selector';
 import { selectTaskState } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
 import { ITaskState } from 'src/app/store/state/task.state';
@@ -14,6 +16,7 @@ import { ESortType, filterTasks, IMenu, sortMenu, sortTasks } from 'src/const';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+  sections$: Observable<ISection[]> = of([]);
   taskState$!: Observable<ITaskState>;
   sortMenu: IMenu[] = sortMenu;
   adding: boolean = false;
@@ -39,6 +42,8 @@ export class ListComponent implements OnInit {
       })),
       tap(({ tasks }) => (this.total = tasks?.length))
     );
+
+    this.sections$ = this.store$.select(selectSectionsList);
   }
 
   setAdding(status: boolean): void {

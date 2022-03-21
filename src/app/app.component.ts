@@ -18,6 +18,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.store$.dispatch(new GetTasks(this.ls.getTasks()));
-    this.store$.dispatch(new GetMarks({ marks: this.ls.getMarks() }));
+    this.store$.dispatch(new GetMarks({ markState: this.ls.getMarks() }));
   }
 }

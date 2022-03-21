@@ -1,0 +1,28 @@
+<ng-container *ngIf="!adding; else addingTml">
+  <nz-divider
+    nzText="Добавить раздел"
+    class="divider-section"
+    (click)="setAdding(true)"
+  ></nz-divider>
+</ng-container>
+
+<ng-template #addingTml>
+  <form nz-form [formGroup]="form">
+    <input nz-input placeholder="Название раздела" formControlName="title" />
+    <div class="row gx-2 mt-2">
+      <div class="col-auto">
+        <button
+          nzDanger
+          nz-button
+          (click)="addSection()"
+          [disabled]="!form.valid"
+        >
+          Добавить
+        </button>
+      </div>
+      <div class="col-auto" (click)="setAdding(false)">
+        <button nz-button>Отмена</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
