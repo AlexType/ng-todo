@@ -58,7 +58,13 @@ export class SearchTaskComponent implements OnInit {
   onSearch(): void {
     this.tasks$ = this.store$
       .select(selectTaskList)
-      .pipe(map((tasks) => tasks.filter((t) => t.title.includes(this.search))));
+      .pipe(
+        map((tasks) =>
+          tasks.filter((t) =>
+            t.title.toLowerCase().includes(this.search.toLowerCase())
+          )
+        )
+      );
   }
 
   clear(): void {
