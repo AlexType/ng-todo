@@ -18,14 +18,24 @@
             <p class="description">{{ task.content }}</p>
 
             <div class="controllers">
-              <button nz-button nzType="text" (click)="setIsEditing(true)">
+              <button
+                nz-button
+                nzType="text"
+                nzSize="small"
+                (click)="setIsEditing(true)"
+              >
                 <i nz-icon>
                   <svg>
                     <use xlink:href="/assets/sprites.svg#pen"></use>
                   </svg>
                 </i>
               </button>
-              <button nz-button nzType="text" (click)="removeTask()">
+              <button
+                nz-button
+                nzType="text"
+                nzSize="small"
+                (click)="removeTask()"
+              >
                 <i nz-icon>
                   <svg>
                     <use xlink:href="/assets/sprites.svg#trash"></use>
@@ -34,7 +44,7 @@
               </button>
             </div>
           </div>
-          <div class="row align-items-end justify-content-between mt-1">
+          <div class="row align-items-end justify-content-between mt-2">
             <div class="col-auto">
               <nz-date-picker
                 nzAllowClear
@@ -42,7 +52,10 @@
                 nzPlaceHolder="Событие"
                 formControlName="deadlineAt"
                 (click)="$event.stopPropagation()"
-                [ngClass]="{ deadline: deadline }"
+                [ngClass]="{
+                  deadline: deadline,
+                  hideIcons: !form.value.deadlineAt
+                }"
               ></nz-date-picker>
             </div>
             <div class="col-auto">

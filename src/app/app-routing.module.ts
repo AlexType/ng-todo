@@ -5,16 +5,26 @@ import { NotFoundComponent } from './components/404/404.component';
 
 const routes: Routes = [
   {
-    path: 'tasks',
-    loadChildren: () =>
-      import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
-  },
-  {
-    path: 'authorization',
-    loadChildren: () =>
-      import('./modules/authorization/authorization.module').then(
-        (m) => m.AuthorizationModule
-      ),
+    path: '',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'tasks',
+      },
+      {
+        path: 'tasks',
+        loadChildren: () =>
+          import('./modules/tasks/tasks.module').then((m) => m.TasksModule),
+      },
+      {
+        path: 'authorization',
+        loadChildren: () =>
+          import('./modules/authorization/authorization.module').then(
+            (m) => m.AuthorizationModule
+          ),
+      },
+    ],
   },
   {
     path: '404',
