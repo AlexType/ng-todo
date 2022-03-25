@@ -36,7 +36,11 @@
   </ng-container>
 
   <ng-container #list>
-    <ul class="list">
+    <ul
+      class="list"
+      cdkDropList
+      (cdkDropListDropped)="drop($event, taskState.tasks)"
+    >
       <li *ngFor="let task of taskState.tasks">
         <app-task [task]="task"></app-task>
       </li>

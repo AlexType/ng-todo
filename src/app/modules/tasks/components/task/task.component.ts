@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
@@ -25,11 +25,15 @@ export class TaskComponent implements OnInit {
   @Input() task!: ITask;
   @Input() isRoot: boolean = true;
 
+  @ViewChild('taskRef') taskRef!: ElementRef<HTMLElement>;
+
   form!: FormGroup;
   isEditing: boolean = false;
   deadline: boolean = false;
   mark$!: Observable<IMark | undefined>;
   section$!: Observable<ISection | undefined>;
+
+  minHeight!: number;
 
   constructor(
     private fb: FormBuilder,
@@ -74,6 +78,10 @@ export class TaskComponent implements OnInit {
         })
       );
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.minHeight = this.taskRef.nativeElement.offsetHeight;
   }
 
   createTaskViewModal(): void {

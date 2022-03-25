@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -69,6 +70,7 @@ import { TasksRoutingModule } from './tasks-routing.module';
     NzSelectModule,
     NzCollapseModule,
     NzPopconfirmModule,
+    DragDropModule,
   ],
   providers: [NzModalService, NzMessageService, LocalStorageService],
   bootstrap: [ListComponent],

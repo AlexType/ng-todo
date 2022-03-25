@@ -1,8 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, of, tap } from 'rxjs';
 import { ISection } from 'src/app/models/section.interface';
+import { ITask } from 'src/app/models/task.interface';
 import { selectSectionsList } from 'src/app/store/selectors/mark.selector';
 import { selectTaskState } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
@@ -44,6 +46,10 @@ export class ListComponent implements OnInit {
     );
 
     this.sections$ = this.store$.select(selectSectionsList);
+  }
+
+  drop(event: CdkDragDrop<any>, array: ITask[]) {
+    moveItemInArray(array, event.previousIndex, event.currentIndex);
   }
 
   setAdding(status: boolean): void {

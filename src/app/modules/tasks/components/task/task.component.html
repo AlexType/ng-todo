@@ -1,4 +1,4 @@
-<div class="task">
+<div class="task" #taskRef cdkDrag>
   <form [formGroup]="form">
     <ng-container *ngIf="isEditing; else static">
       <app-edit-task
@@ -95,4 +95,16 @@
       </div>
     </ng-template>
   </form>
+  <div class="drag-selector" cdkDragHandle>
+    <i nz-icon>
+      <svg>
+        <use xlink:href="assets/sprites.svg#grip-vertical"></use>
+      </svg>
+    </i>
+  </div>
+  <div
+    class="example-custom-placeholder"
+    *cdkDragPlaceholder
+    [ngStyle]="{ minHeight: minHeight + 'px' }"
+  ></div>
 </div>
