@@ -76,7 +76,7 @@
       </div>
     </ng-template>
   </form>
-  <ng-container *ngIf="isRoot && !isEditing">
+  <ng-container *ngIf="useDragDrop && isRoot && !isEditing">
     <div class="drag-selector" cdkDragHandle>
       <app-svg svg="grip-vertical" fontSize="20px"></app-svg>
     </div>

@@ -7,7 +7,7 @@ import { IMark } from '../models/mark.interface';
 import { ISection } from '../models/section.interface';
 import { ITask } from '../models/task.interface';
 import { AddMark, AddSection, DeleteSection } from '../store/actions/mark.actions';
-import { AddTask, RemoveTask, UpdateTask } from '../store/actions/task.actions';
+import { AddTask, GetTasks, RemoveTask, UpdateTask } from '../store/actions/task.actions';
 import { selectMarkList, selectSectionsList } from '../store/selectors/mark.selector';
 import { selectTaskList } from '../store/selectors/task.selector';
 import { IAppState } from '../store/state/_app.state';
@@ -59,6 +59,10 @@ export class StoreService {
 
   removeTask(id: string): void {
     this.store$.dispatch(new RemoveTask(id));
+  }
+
+  setTasks(tasks: ITask[]): void {
+    this.store$.dispatch(new GetTasks(tasks));
   }
 
   getSections(): Observable<ISection[]> {

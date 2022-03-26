@@ -21,6 +21,7 @@ import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-moda
 export class TaskComponent implements OnInit, OnDestroy {
   @Input() task!: ITask;
   @Input() isRoot: boolean = true;
+  @Input() useDragDrop: boolean = false;
 
   @ViewChild('taskRef') taskRef!: ElementRef<HTMLElement>;
 

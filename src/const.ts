@@ -44,7 +44,7 @@ export function checkDeadline(date: number): boolean {
 
 export function sortTasks(
   tasks: ITask[],
-  sortType: string = ESortType.CreatedAtDec
+  sortType: string | null = null
 ): ITask[] {
   switch (sortType) {
     case ESortType.CreatedAtAsc:
