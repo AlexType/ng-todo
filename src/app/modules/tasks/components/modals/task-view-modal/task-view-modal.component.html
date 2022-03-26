@@ -1,8 +1,4 @@
-<div *nzModalTitle>
-  <nz-tag>
-    {{ (task$ | async)?.createdAt | date: "dd MMMM yyyy" }}
-  </nz-tag>
-</div>
+<div *nzModalTitle>Информация по задаче</div>
 
 <div class="wrapper" *ngIf="task$ | async as task">
   <app-task [task]="task" [isRoot]="false"></app-task>

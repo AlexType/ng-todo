@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ITask } from 'src/app/models/task.interface';
 import { StoreService } from 'src/app/services/store.service';
@@ -9,12 +9,14 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./task-view-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskViewModalComponent {
+export class TaskViewModalComponent implements OnInit {
   @Input() id!: string;
 
   task$!: Observable<ITask | undefined>;
 
-  constructor(private ss: StoreService) {
+  constructor(private ss: StoreService) {}
+
+  ngOnInit(): void {
     this.task$ = this.ss.getTask(this.id);
   }
 }
