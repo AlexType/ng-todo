@@ -12,11 +12,11 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, of } from 'rxjs';
-import { IMark } from 'src/app/models/mark.interface';
-import { ISection } from 'src/app/models/section.interface';
+import { map, Observable, of } from 'rxjs';
 import { ITask } from 'src/app/models/task.interface';
 import { StoreService } from 'src/app/services/store.service';
+
+import { IOption } from '../select-icon/select-icon.component';
 
 @Component({
   selector: 'app-edit-task',
@@ -32,8 +32,8 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
 
   form!: FormGroup;
   task: ITask | undefined;
-  marks$: Observable<IMark[]> = of([]);
-  sections$: Observable<ISection[]> = of([]);
+  markOptions$: Observable<IOption[]> = of([]);
+  sectionOptions$: Observable<IOption[]> = of([]);
 
   constructor(
     private fb: FormBuilder,
@@ -51,8 +51,22 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.marks$ = this.ss.getMarks();
-    this.sections$ = this.ss.getSections();
+    this.markOptions$ = this.ss.getMarks().pipe(
+      map((mark) =>
+        mark.map((m) => ({
+          label: m.title,
+          value: m.id,
+        }))
+      )
+    );
+    this.sectionOptions$ = this.ss.getSections().pipe(
+      map((section) =>
+        section.map((s) => ({
+          label: s.title,
+          value: s.id,
+        }))
+      )
+    );
 
     if (this.id) {
       this.ss.getTask(this.id).subscribe((task) => {
@@ -94,12 +108,12 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addNewMark(input: HTMLInputElement): void {
-    this.ss.createMark(input.value);
+  addNewMark(title: string): void {
+    this.ss.createMark(title);
   }
 
-  addNewSection(input: HTMLInputElement): void {
-    this.ss.createSection(input.value);
+  addNewSection(title: string): void {
+    this.ss.createSection(title);
   }
 
   cancel(): void {

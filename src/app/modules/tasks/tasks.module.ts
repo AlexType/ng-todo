@@ -21,9 +21,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { IconSvgDirective } from 'src/app/directives/icon-svg.directive';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { EditTaskComponent } from './components/edit-task/edit-task.component';
+import { IconSvgComponent } from './components/icon-svg/icon-svg.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { ListComponent } from './components/list/list.component';
 import { TaskCreateModalComponent } from './components/modals/task-create-modal/task-create-modal.component';
@@ -31,20 +33,24 @@ import { TaskViewModalComponent } from './components/modals/task-view-modal/task
 import { SearchTaskComponent } from './components/search-task/search-task.component';
 import { SectionCreateComponent } from './components/section-create/section-create.component';
 import { SectionComponent } from './components/section/section.component';
+import { SelectIconComponent } from './components/select-icon/select-icon.component';
 import { TaskComponent } from './components/task/task.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 
 @NgModule({
   declarations: [
-    ListComponent,
-    TaskComponent,
     LayoutComponent,
-    SectionComponent,
+    IconSvgComponent,
+    IconSvgDirective,
+    ListComponent,
     EditTaskComponent,
+    TaskComponent,
+    SelectIconComponent,
     SearchTaskComponent,
-    SectionCreateComponent,
     TaskViewModalComponent,
     TaskCreateModalComponent,
+    SectionCreateComponent,
+    SectionComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +79,6 @@ import { TasksRoutingModule } from './tasks-routing.module';
     DragDropModule,
   ],
   providers: [NzModalService, NzMessageService, LocalStorageService],
-  bootstrap: [ListComponent],
+  bootstrap: [LayoutComponent],
 })
 export class TasksModule {}

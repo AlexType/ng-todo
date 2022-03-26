@@ -6,9 +6,8 @@ import { combineLatest, map, Observable, of, tap } from 'rxjs';
 import { ISection } from 'src/app/models/section.interface';
 import { ITask } from 'src/app/models/task.interface';
 import { selectSectionsList } from 'src/app/store/selectors/mark.selector';
-import { selectTaskState } from 'src/app/store/selectors/task.selector';
+import { selectTaskList } from 'src/app/store/selectors/task.selector';
 import { IAppState } from 'src/app/store/state/_app.state';
-import { ITaskState } from 'src/app/store/state/task.state';
 import { ESortType, filterTasks, IMenu, sortMenu, sortTasks } from 'src/const';
 
 @Component({
@@ -18,8 +17,9 @@ import { ESortType, filterTasks, IMenu, sortMenu, sortTasks } from 'src/const';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+  tasks$!: Observable<ITask[]>;
   sections$: Observable<ISection[]> = of([]);
-  taskState$!: Observable<ITaskState>;
+
   sortMenu: IMenu[] = sortMenu;
   adding: boolean = false;
   total: number = 0;
@@ -30,30 +30,17 @@ export class ListComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.taskState$ = combineLatest([
-      this.store$.select(selectTaskState),
+  ngOnInit(): void {
+    this.tasks$ = combineLatest([
+      this.store$.select(selectTaskList),
       this.activatedRoute.queryParams,
     ]).pipe(
-      map(([state, params]) => ({
-        ...state,
-        tasks: sortTasks(
-          filterTasks([...state.tasks], params.deadline),
-          params.sort
-        ),
-      })),
-      tap(({ tasks }) => (this.total = tasks?.length))
+      map(([tasks, params]) => [
+        ...sortTasks(filterTasks([...tasks], params.deadline), params.sort),
+      ]),
+      tap((tasks) => (this.total = tasks?.length))
     );
-
     this.sections$ = this.store$.select(selectSectionsList);
-  }
-
-  drop(event: CdkDragDrop<any>, array: ITask[]) {
-    moveItemInArray(array, event.previousIndex, event.currentIndex);
-  }
-
-  setAdding(status: boolean): void {
-    this.adding = status;
   }
 
   updateQueryParams(key: string, type: ESortType): void {
@@ -63,5 +50,13 @@ export class ListComponent implements OnInit {
       },
       queryParamsHandling: 'merge',
     });
+  }
+
+  drop(event: CdkDragDrop<any>, array: ITask[]) {
+    moveItemInArray(array, event.previousIndex, event.currentIndex);
+  }
+
+  setAdding(status: boolean): void {
+    this.adding = status;
   }
 }

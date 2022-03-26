@@ -23,8 +23,9 @@ i {
   display: inline-flex;
   align-items: center;
 
-  i {
+   i {
     margin-right: 5px;
+    font-size: 12px !important;
   }
 }
 
@@ -59,6 +60,18 @@ i {
 
 // .ant-btn
 
+.ant-btn {
+  &:not(.ant-btn-icon-only) i {
+    margin-right: 10px;
+  }
+}
+
+.ant-btn-icon-only {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ant-btn-dangerous {
   color: #ff7066;
   border-color: #ff7066;
@@ -89,4 +102,11 @@ i {
     font-size: 12px;
     line-height: 0.5;
   }
+}
+
+// ant-drawer
+
+.ant-drawer-body {
+  padding-left: 0;
+  padding-right: 0;
 }

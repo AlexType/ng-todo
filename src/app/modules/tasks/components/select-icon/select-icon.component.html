@@ -1,0 +1,43 @@
+<nz-select
+  nzShowSearch
+  nzAllowClear
+  [ngStyle]="{ width: width }"
+  [formControl]="control"
+  [nzPlaceHolder]="placeholder"
+  [nzDropdownMatchSelectWidth]="false"
+  [nzDropdownRender]="sectionTemplate"
+>
+  <nz-option
+    nzCustomContent
+    [nzValue]="option.value"
+    [nzLabel]="option.label"
+    *ngFor="let option of options"
+  >
+    <app-svg svg="section"></app-svg>
+    {{ option.label }}
+  </nz-option>
+  <ng-template #sectionTemplate>
+    <div class="mx-1 mt-1">
+      <div class="row g-0">
+        <div class="col">
+          <input
+            nz-input
+            type="text"
+            #inputElement
+            placeholder="Добавить раздел"
+          />
+        </div>
+        <div class="col-auto">
+          <button
+            nz-button
+            icon-svg
+            nzType="text"
+            (click)="createNew(inputElement)"
+          >
+            <app-svg svg="plus"></app-svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</nz-select>

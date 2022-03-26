@@ -2,11 +2,12 @@ import { DateTime } from 'luxon';
 
 import { ITask } from './app/models/task.interface';
 
-// export enum TaskTypeEnum {
-//   INCOMING = 'incoming',
-//   UPCOMING = 'upcoming',
-//   TODAY = 'today',
-// }
+export enum EColor {
+  Blue = '#246fe0',
+  Default = '#dfdfdf',
+  Green = '#24e06c',
+  Red = '#ff7066',
+}
 
 export enum ESortType {
   CreatedAtAsc = 'CreatedAt-asc',

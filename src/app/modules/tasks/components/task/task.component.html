@@ -20,27 +20,21 @@
             <div class="controllers">
               <button
                 nz-button
+                icon-svg
                 nzType="text"
                 nzSize="small"
                 (click)="setIsEditing(true)"
               >
-                <i nz-icon>
-                  <svg>
-                    <use xlink:href="assets/sprites.svg#pen"></use>
-                  </svg>
-                </i>
+                <app-svg svg="pen" fontSize="14px"></app-svg>
               </button>
               <button
                 nz-button
+                icon-svg
                 nzType="text"
                 nzSize="small"
                 (click)="removeTask()"
               >
-                <i nz-icon>
-                  <svg>
-                    <use xlink:href="assets/sprites.svg#trash"></use>
-                  </svg>
-                </i>
+                <app-svg svg="trash" fontSize="14px"></app-svg>
               </button>
             </div>
           </div>
@@ -61,30 +55,17 @@
             <div class="col-auto">
               <div class="row gx-2">
                 <div class="col-auto" *ngIf="mark$ | async as mark">
-                  <nz-tag class="mark-task">
-                    <i
-                      nz-icon
-                      [ngStyle]="{ color: mark.icon?.color || 'gray' }"
-                    >
-                      <svg>
-                        <use
-                          [attr.xlink:href]="
-                            '/assets/sprites.svg#' +
-                            (mark.icon?.type || 'circle')
-                          "
-                        ></use>
-                      </svg>
-                    </i>
+                  <nz-tag>
+                    <app-svg
+                      [color]="mark.icon?.color || 'gray'"
+                      [svg]="mark.icon?.type || 'circle'"
+                    ></app-svg>
                     {{ mark.title }}
                   </nz-tag>
                 </div>
                 <div class="col-auto" *ngIf="section$ | async as section">
-                  <nz-tag class="mark-task">
-                    <i nz-icon>
-                      <svg>
-                        <use xlink:href="assets/sprites.svg#section"></use>
-                      </svg>
-                    </i>
+                  <nz-tag>
+                    <app-svg svg="section"></app-svg>
                     {{ section.title }}
                   </nz-tag>
                 </div>
@@ -95,16 +76,14 @@
       </div>
     </ng-template>
   </form>
-  <div class="drag-selector" cdkDragHandle>
-    <i nz-icon>
-      <svg>
-        <use xlink:href="assets/sprites.svg#grip-vertical"></use>
-      </svg>
-    </i>
-  </div>
-  <div
-    class="example-custom-placeholder"
-    *cdkDragPlaceholder
-    [ngStyle]="{ minHeight: minHeight + 'px' }"
-  ></div>
+  <ng-container *ngIf="isRoot && !isEditing">
+    <div class="drag-selector" cdkDragHandle>
+      <app-svg svg="grip-vertical" fontSize="20px"></app-svg>
+    </div>
+    <div
+      *cdkDragPlaceholder
+      class="example-custom-placeholder"
+      [ngStyle]="{ minHeight: minHeight + 'px' }"
+    ></div>
+  </ng-container>
 </div>

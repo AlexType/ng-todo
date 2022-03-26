@@ -14,25 +14,18 @@
       <button
         nz-button
         nz-dropdown
+        icon-svg
         nzType="text"
         nzTrigger="click"
         [nzDropdownMenu]="menu"
         (click)="$event.stopPropagation()"
       >
-        <i nz-icon>
-          <svg>
-            <use xlink:href="assets/sprites.svg#ellipsis-vertical"></use>
-          </svg>
-        </i>
+        <app-svg svg="ellipsis-vertical"></app-svg>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu nzSelectable>
             <li nz-menu-item>
-              <i nz-icon class="me-2">
-                <svg>
-                  <use xlink:href="assets/sprites.svg#pen"></use>
-                </svg>
-              </i>
-              Редактировать
+              <app-svg svg="pen" fontSize="14px"></app-svg>
+              <span class="ms-2">Редактировать</span>
             </li>
             <li
               nz-menu-item
@@ -40,12 +33,8 @@
               (nzOnConfirm)="deleteSection(section.id)"
               nzPopconfirmTitle="Вы точно хотите удалить раздел ?"
             >
-              <i nz-icon class="me-2" style="color: #ff7066">
-                <svg>
-                  <use xlink:href="assets/sprites.svg#trash"></use>
-                </svg>
-              </i>
-              Удалить
+              <app-svg svg="trash" fontSize="14px" color="#ff7066"></app-svg>
+              <span class="ms-2">Удалить</span>
             </li>
           </ul>
         </nz-dropdown-menu>

@@ -1,27 +1,24 @@
 <header class="header">
   <div class="container-fluid">
-    <div class="row align-items-center justify-content-between">
+    <div class="row header-row">
       <div class="col-auto">
-        <div class="row align-items-center gx-1">
+        <div class="row">
           <div class="col-auto">
-            <button nzType="text" nz-button (click)="toggleVisibleSidebar()">
-              <i nz-icon>
-                <svg>
-                  <use xlink:href="assets/sprites.svg#bar"></use>
-                </svg>
-              </i>
-            </button>
+            <nz-button-group>
+              <button
+                nz-button
+                icon-svg
+                nzType="text"
+                (click)="setSidebarVisible(!sidebarVisible)"
+              >
+                <app-svg svg="bar"></app-svg>
+              </button>
+              <a nz-button icon-svg nzType="text" routerLink="/">
+                <app-svg svg="home"></app-svg>
+              </a>
+            </nz-button-group>
           </div>
           <div class="col-auto">
-            <button nzType="text" nz-button [routerLink]="['/tasks']">
-              <i nz-icon>
-                <svg>
-                  <use xlink:href="assets/sprites.svg#home"></use>
-                </svg>
-              </i>
-            </button>
-          </div>
-          <div class="col-auto d-none d-md-block ps-2">
             <app-search-task></app-search-task>
           </div>
         </div>
@@ -30,23 +27,9 @@
         {{ realTime$ | async | date: "dd MMMM yyyy, HH:mm:ss" }}
       </div>
       <div class="col-auto">
-        <div class="row align-items-center gx-1">
-          <div class="col-auto">
-            <button nz-button nzType="text" (click)="openModal()">
-              <i nz-icon>
-                <svg>
-                  <use xlink:href="assets/sprites.svg#plus"></use>
-                </svg>
-              </i>
-            </button>
-          </div>
-          <div class="col-auto ps-2">
-            <nz-avatar
-              [routerLink]="['/authorization']"
-              nzIcon="user"
-            ></nz-avatar>
-          </div>
-        </div>
+        <button nz-button icon-svg nzType="text" (click)="openModal()">
+          <app-svg svg="plus"></app-svg>
+        </button>
       </div>
     </div>
   </div>
@@ -54,81 +37,37 @@
 
 <aside>
   <nz-drawer
-    [nzClosable]="false"
-    nzPlacement="left"
     nzWidth="276px"
+    nzPlacement="left"
+    [nzClosable]="false"
     [(nzVisible)]="sidebarVisible"
-    (nzOnClose)="toggleVisibleSidebar()"
+    (nzOnClose)="setSidebarVisible(false)"
   >
     <ng-container *nzDrawerContent>
       <ul class="list">
-        <li>
+        <li *ngFor="let item of menu">
           <button
             nz-button
             nzType="text"
-            [routerLink]="['/tasks']"
-            style="justify-content: flex-start"
-            (click)="toggleVisibleSidebar(false)"
+            [routerLink]="item.routerLink"
+            [queryParams]="item.queryParams"
+            (click)="setSidebarVisible(false)"
           >
-            <i nz-icon style="color: #246fe0; font-size: 18px">
-              <svg>
-                <use xlink:href="assets/sprites.svg#inbox"></use>
-              </svg>
-            </i>
-            Входящие
-          </button>
-        </li>
-        <li>
-          <button
-            nz-button
-            nzType="text"
-            [routerLink]="['/tasks']"
-            style="justify-content: flex-start"
-            [queryParams]="{ deadline: 'Today' }"
-            (click)="toggleVisibleSidebar(false)"
-          >
-            <i
-              nz-icon
-              style="color: #24e06c; position: relative; font-size: 18px"
-            >
-              <svg>
-                <use xlink:href="assets/sprites.svg#calendar"></use>
-              </svg>
-              <span class="today-ico">{{ today }}</span>
-            </i>
-            Сегодня
-          </button>
-        </li>
-        <li>
-          <button
-            nz-button
-            nzType="text"
-            [routerLink]="['/tasks']"
-            style="justify-content: flex-start"
-            [queryParams]="{ deadline: 'Upcoming' }"
-            (click)="toggleVisibleSidebar(false)"
-          >
-            <i nz-icon style="color: #ff7066; font-size: 18px">
-              <svg>
-                <use xlink:href="assets/sprites.svg#calendar-plus"></use>
-              </svg>
-            </i>
-            Предстоящие
-          </button>
-        </li>
-        <li>
-          <button
-            nz-button
-            nzType="text"
-            style="justify-content: flex-start"
-            (click)="toggleVisibleSidebar(false)"
-          >
-            <i nz-icon style="color: #ff7066; font-size: 18px">
-              <svg>
-                <use xlink:href="assets/sprites.svg#plus"></use>
-              </svg>
-            </i>
-            Добавить раздел
+            <span>
+              <app-svg
+                fontSize="19px"
+                [svg]="item.icon.svg"
+                [color]="item.icon.color"
+              ></app-svg>
+              <span
+                class="icon-value"
+                *ngIf="item.icon?.label"
+                [ngStyle]="{ color: item.icon.color }"
+              >
+                {{ item.icon.label }}
+              </span>
+            </span>
+            {{ item.label }}
           </button>
         </li>
       </ul>

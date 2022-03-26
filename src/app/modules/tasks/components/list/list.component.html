@@ -1,51 +1,44 @@
-<div class="list-wrapper" *ngIf="taskState$ | async as taskState">
-  <div class="row">
-    <div class="col-auto">
-      <button nz-dropdown nzTrigger="click" nz-button [nzDropdownMenu]="menu">
-        Вид
-        <i nz-icon nzType="down"></i>
-      </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-submenu nzTitle="Сортировка">
-            <ul>
-              <li
-                nz-menu-item
-                *ngFor="let item of sortMenu"
-                (click)="updateQueryParams('sort', item.type)"
-              >
-                <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
-                <span class="ms-2">{{ item.label }}</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-    </div>
-  </div>
+<div class="list-wrapper" *ngIf="tasks$ | async as tasks">
+  <button
+    nz-button
+    nz-dropdown
+    nzType="text"
+    nzTrigger="click"
+    [nzDropdownMenu]="menu"
+  >
+    Сортировать
+    <i nz-icon nzType="down"></i>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-submenu nzTitle="Сортировка">
+          <ul>
+            <li
+              nz-menu-item
+              *ngFor="let item of sortMenu"
+              (click)="updateQueryParams('sort', item.type)"
+            >
+              <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+              <span class="ms-2">{{ item.label }}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+  </button>
 
   <nz-divider></nz-divider>
 
-  <ng-container *ngIf="!total && !adding">
-    <nz-empty [nzNotFoundContent]="emptyRef">
-      <ng-template #emptyRef>
-        <span *ngIf="taskState.total">Задач нет</span>
-        <span *ngIf="!taskState.total">У вас ещё нет задач</span>
-      </ng-template>
-    </nz-empty>
-  </ng-container>
+  <nz-empty *ngIf="!total && !adding" [nzNotFoundContent]="emptyRef">
+    <ng-template #emptyRef>
+      <span>Задач нет</span>
+    </ng-template>
+  </nz-empty>
 
-  <ng-container #list>
-    <ul
-      class="list"
-      cdkDropList
-      (cdkDropListDropped)="drop($event, taskState.tasks)"
-    >
-      <li *ngFor="let task of taskState.tasks">
-        <app-task [task]="task"></app-task>
-      </li>
-    </ul>
-  </ng-container>
+  <ul class="list" cdkDropList (cdkDropListDropped)="drop($event, tasks)">
+    <li *ngFor="let task of tasks">
+      <app-task [task]="task"></app-task>
+    </li>
+  </ul>
 
   <div *ngIf="adding; else btn">
     <app-edit-task (approve)="setAdding(false)" *ngIf="adding"></app-edit-task>
@@ -53,12 +46,8 @@
 
   <ng-template #btn>
     <nz-divider></nz-divider>
-    <button nz-button (click)="setAdding(true)">
-      <i nz-icon style="color: #ff7066">
-        <svg>
-          <use xlink:href="assets/sprites.svg#plus"></use>
-        </svg>
-      </i>
+    <button nz-button nzType="text" (click)="setAdding(true)">
+      <app-svg color="#ff7066" svg="plus"></app-svg>
       Добавить задачу
     </button>
   </ng-template>
