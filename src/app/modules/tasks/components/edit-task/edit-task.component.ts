@@ -10,19 +10,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { DateTime } from 'luxon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, of } from 'rxjs';
 import { IMark } from 'src/app/models/mark.interface';
 import { ISection } from 'src/app/models/section.interface';
 import { ITask } from 'src/app/models/task.interface';
-import { AddMark, AddSection } from 'src/app/store/actions/mark.actions';
-import { AddTask, UpdateTask } from 'src/app/store/actions/task.actions';
-import { selectMarkList, selectSectionsList } from 'src/app/store/selectors/mark.selector';
-import { selectTaskList } from 'src/app/store/selectors/task.selector';
-import { IAppState } from 'src/app/store/state/_app.state';
-import { v4 as uuidv4 } from 'uuid';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-edit-task',
@@ -43,32 +37,39 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private store$: Store<IAppState>,
+    private ss: StoreService,
     private messageService: NzMessageService
-  ) {}
+  ) {
+    this.form = this.fb.group({
+      content: [''],
+      markId: [null],
+      sectionId: [null],
+      deadlineAt: [null],
+      checked: [false, Validators.required],
+      title: ['', [Validators.required, Validators.min(1)]],
+    });
+  }
 
   ngOnInit(): void {
+    this.marks$ = this.ss.getMarks();
+    this.sections$ = this.ss.getSections();
+
     if (this.id) {
-      this.store$.select(selectTaskList).subscribe((task) => {
-        this.task = task.find((t) => t.id === this.id);
+      this.ss.getTask(this.id).subscribe((task) => {
+        this.form.patchValue({
+          title: task?.title || '',
+          markId: task?.markId || null,
+          content: task?.content || '',
+          checked: task?.checked || false,
+          sectionId: task?.sectionId || null,
+          deadlineAt: task?.deadlineAt
+            ? DateTime.fromMillis(task.deadlineAt).toJSDate()
+            : null,
+        });
+
+        this.task = task;
       });
     }
-
-    this.marks$ = this.store$.select(selectMarkList);
-    this.sections$ = this.store$.select(selectSectionsList);
-
-    this.form = this.fb.group({
-      content: [this.task?.content || ''],
-      markId: [this.task?.markId || null],
-      sectionId: [this.task?.sectionId || null],
-      deadlineAt: [
-        this.task?.deadlineAt
-          ? DateTime.fromMillis(this.task.deadlineAt).toJSDate()
-          : null,
-      ],
-      checked: [this.task?.checked || false, Validators.required],
-      title: [this.task?.title || '', [Validators.required, Validators.min(1)]],
-    });
   }
 
   ngAfterViewInit(): void {
@@ -94,25 +95,11 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
   }
 
   addNewMark(input: HTMLInputElement): void {
-    this.store$.dispatch(
-      new AddMark({
-        mark: {
-          id: uuidv4(),
-          title: input.value,
-        },
-      })
-    );
+    this.ss.createMark(input.value);
   }
 
   addNewSection(input: HTMLInputElement): void {
-    this.store$.dispatch(
-      new AddSection({
-        section: {
-          id: uuidv4(),
-          title: input.value,
-        },
-      })
-    );
+    this.ss.createSection(input.value);
   }
 
   cancel(): void {
@@ -120,38 +107,30 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
   }
 
   addNewTask(): void {
-    this.task = {
-      ...this.task,
+    this.ss.createTask({
       ...this.form.value,
-      id: uuidv4(),
       createdAt: DateTime.now().toMillis(),
       updatedAt: DateTime.now().toMillis(),
       deadlineAt: this.form.value.deadlineAt
         ? DateTime.fromJSDate(this.form.value.deadlineAt).toMillis()
         : null,
-    };
+    });
 
-    if (this.task) {
-      this.store$.dispatch(new AddTask(this.task));
-      this.messageService.success('Задача создана', { nzDuration: 1300 });
-      this.approve.emit();
-    }
+    this.messageService.success('Задача создана', { nzDuration: 1300 });
+    this.approve.emit();
   }
 
   updateTask(): void {
-    this.task = {
+    this.ss.updateTask({
       ...this.task,
       ...this.form.value,
       deadlineAt: this.form.value.deadlineAt
         ? DateTime.fromJSDate(this.form.value.deadlineAt).toMillis()
         : null,
       updatedAt: new Date().getTime(),
-    };
+    });
 
-    if (this.task) {
-      this.store$.dispatch(new UpdateTask(this.task));
-      this.messageService.success('Задача обновлена', { nzDuration: 1300 });
-    }
+    this.messageService.success('Задача обновлена', { nzDuration: 1300 });
 
     this.approve.emit();
   }
