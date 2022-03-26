@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IMark } from '../models/mark.interface';
 import { ISection } from '../models/section.interface';
 import { ITask } from '../models/task.interface';
-import { AddMark, AddSection } from '../store/actions/mark.actions';
+import { AddMark, AddSection, DeleteSection } from '../store/actions/mark.actions';
 import { AddTask, RemoveTask, UpdateTask } from '../store/actions/task.actions';
 import { selectMarkList, selectSectionsList } from '../store/selectors/mark.selector';
 import { selectTaskList } from '../store/selectors/task.selector';
@@ -37,6 +37,10 @@ export class StoreService {
         },
       })
     );
+  }
+
+  getTasks(): Observable<ITask[]> {
+    return this.store$.select(selectTaskList);
   }
 
   getTask(id: string): Observable<ITask | undefined> {
@@ -73,5 +77,9 @@ export class StoreService {
         section: { id: uuidv4(), title },
       })
     );
+  }
+
+  deleteSection(id: string): void {
+    this.store$.dispatch(new DeleteSection({ id }));
   }
 }

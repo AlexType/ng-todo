@@ -1,13 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { IMark } from 'src/app/models/mark.interface';
 import { ITask } from 'src/app/models/task.interface';
-import { selectMarkList } from 'src/app/store/selectors/mark.selector';
-import { selectTaskList } from 'src/app/store/selectors/task.selector';
-import { IAppState } from 'src/app/store/state/_app.state';
+import { StoreService } from 'src/app/services/store.service';
 
 import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-modal.component';
 
@@ -17,12 +14,7 @@ import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-moda
   styleUrls: ['./search-task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchTaskComponent implements OnInit {
-  form!: FormGroup;
-  search: string = '';
-  marks: IMark[] | undefined = [];
-  tasks$: Observable<ITask[] | undefined> = of([]);
-
+export class SearchTaskComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {
     if (!this.el.nativeElement.contains(event.target)) {
@@ -30,16 +22,29 @@ export class SearchTaskComponent implements OnInit {
     }
   }
 
+  form!: FormGroup;
+  search: string = '';
+  marks: IMark[] | undefined = [];
+  tasks$: Observable<ITask[] | undefined> = of([]);
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private el: ElementRef,
-    private store$: Store<IAppState>,
+    private ss: StoreService,
     private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
-    this.store$
-      .select(selectMarkList)
+    this.ss
+      .getMarks()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((marks) => (this.marks = marks));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   createTaskViewModal(id: string): void {
@@ -56,8 +61,8 @@ export class SearchTaskComponent implements OnInit {
   }
 
   onSearch(): void {
-    this.tasks$ = this.store$
-      .select(selectTaskList)
+    this.tasks$ = this.ss
+      .getTasks()
       .pipe(
         map((tasks) =>
           tasks.filter((t) =>

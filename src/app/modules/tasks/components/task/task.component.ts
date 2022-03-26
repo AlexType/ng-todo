@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { IMark } from 'src/app/models/mark.interface';
 import { ISection } from 'src/app/models/section.interface';
 import { ITask } from 'src/app/models/task.interface';
@@ -18,19 +18,20 @@ import { TaskViewModalComponent } from '../modals/task-view-modal/task-view-moda
   styleUrls: ['./task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, OnDestroy {
   @Input() task!: ITask;
   @Input() isRoot: boolean = true;
 
   @ViewChild('taskRef') taskRef!: ElementRef<HTMLElement>;
 
   form!: FormGroup;
+  minHeight!: number;
   isEditing: boolean = false;
   deadline: boolean = false;
   mark$!: Observable<IMark | undefined>;
   section$!: Observable<ISection | undefined>;
 
-  minHeight!: number;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +57,7 @@ export class TaskComponent implements OnInit {
       ],
     });
 
-    this.form.valueChanges.subscribe((form) => {
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((form) => {
       this.ss.updateTask({
         ...this.task,
         checked: form.checked,
@@ -66,6 +67,11 @@ export class TaskComponent implements OnInit {
           : null,
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit(): void {

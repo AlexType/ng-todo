@@ -9,8 +9,8 @@ import { StoreService } from 'src/app/services/store.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionCreateComponent implements OnInit {
-  adding: boolean = false;
   form!: FormGroup;
+  adding: boolean = false;
 
   constructor(private fb: FormBuilder, private ss: StoreService) {}
 

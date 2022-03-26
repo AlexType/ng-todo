@@ -40,14 +40,13 @@ export class ListComponent implements OnInit {
       ]),
       tap((tasks) => (this.total = tasks?.length))
     );
+
     this.sections$ = this.store$.select(selectSectionsList);
   }
 
   updateQueryParams(key: string, type: ESortType): void {
     this.router.navigate([], {
-      queryParams: {
-        [key]: type,
-      },
+      queryParams: { [key]: type },
       queryParamsHandling: 'merge',
     });
   }

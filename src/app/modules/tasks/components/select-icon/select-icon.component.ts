@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnDestroy, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { StoreService } from 'src/app/services/store.service';
 
 export interface IOption {
@@ -20,7 +21,7 @@ export interface IOption {
     },
   ],
 })
-export class SelectIconComponent implements ControlValueAccessor {
+export class SelectIconComponent implements ControlValueAccessor, OnDestroy {
   @Input() placeholder: string = '';
   @Input() options: IOption[] = [];
   @Input() width: string = '134px';
@@ -32,12 +33,19 @@ export class SelectIconComponent implements ControlValueAccessor {
   onChange: any;
   onTouched: any;
 
+  private destroy$ = new Subject<void>();
+
   constructor(private ss: StoreService) {
-    this.control.valueChanges.subscribe((r) => {
+    this.control.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((r) => {
       if (this.onChange) {
         this.onChange(r);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   writeValue(value: any): void {

@@ -5,6 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -12,7 +13,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateTime } from 'luxon';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { ITask } from 'src/app/models/task.interface';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -24,16 +25,17 @@ import { IOption } from '../select-icon/select-icon.component';
   styleUrls: ['./edit-task.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditTaskComponent implements OnInit, AfterViewInit {
+export class EditTaskComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() id: string | undefined;
   @Output() approve = new EventEmitter<void>();
-
   @ViewChild('titleRef') titleRef!: ElementRef<HTMLTextAreaElement>;
 
   form!: FormGroup;
   task: ITask | undefined;
   markOptions$: Observable<IOption[]> = of([]);
   sectionOptions$: Observable<IOption[]> = of([]);
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -59,6 +61,7 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
         }))
       )
     );
+
     this.sectionOptions$ = this.ss.getSections().pipe(
       map((section) =>
         section.map((s) => ({
@@ -69,21 +72,29 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
     );
 
     if (this.id) {
-      this.ss.getTask(this.id).subscribe((task) => {
-        this.form.patchValue({
-          title: task?.title || '',
-          markId: task?.markId || null,
-          content: task?.content || '',
-          checked: task?.checked || false,
-          sectionId: task?.sectionId || null,
-          deadlineAt: task?.deadlineAt
-            ? DateTime.fromMillis(task.deadlineAt).toJSDate()
-            : null,
-        });
+      this.ss
+        .getTask(this.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((task) => {
+          this.task = task;
 
-        this.task = task;
-      });
+          this.form.patchValue({
+            title: task?.title || '',
+            markId: task?.markId || null,
+            content: task?.content || '',
+            checked: task?.checked || false,
+            sectionId: task?.sectionId || null,
+            deadlineAt: task?.deadlineAt
+              ? DateTime.fromMillis(task.deadlineAt).toJSDate()
+              : null,
+          });
+        });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngAfterViewInit(): void {
@@ -93,7 +104,7 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
   onKeydown(event: KeyboardEvent): void {
     switch (event.key) {
       case 'Enter':
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && this.form.valid) {
           if (this.id) {
             this.updateTask();
           } else {
@@ -145,7 +156,6 @@ export class EditTaskComponent implements OnInit, AfterViewInit {
     });
 
     this.messageService.success('Задача обновлена', { nzDuration: 1300 });
-
     this.approve.emit();
   }
 }

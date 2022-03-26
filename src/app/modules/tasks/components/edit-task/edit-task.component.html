@@ -24,9 +24,7 @@
           nzFormat="dd MMMM yyyy"
           nzPlaceHolder="Событие"
           formControlName="deadlineAt"
-          [ngClass]="{
-            hideIcons: !form.value.deadlineAt
-          }"
+          [ngClass]="{ hideIcons: !form.value.deadlineAt }"
         ></nz-date-picker>
       </div>
       <div class="col-auto">
