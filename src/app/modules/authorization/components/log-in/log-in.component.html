@@ -1,17 +1,29 @@
 <h2 class="text-center mb-4">Вход</h2>
 
-<form>
-  <div class="mb-3">
-    <input nz-input type="tel" placeholder="Ваш номер" />
-  </div>
-  <div>
-    <input nz-input type="password" placeholder="Ваш пароль" />
-  </div>
-</form>
+<nz-spin [nzSpinning]="loading">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <input
+        nz-input
+        type="email"
+        placeholder="E-mail"
+        formControlName="email"
+      />
+    </div>
+    <div>
+      <input
+        nz-input
+        type="password"
+        placeholder="Пароль"
+        formControlName="password"
+      />
+    </div>
+  </form>
+</nz-spin>
 
 <div class="row justify-content-center mt-4">
   <div class="col-auto">
-    <button nz-button>Войти</button>
+    <button nz-button (click)="login()">Войти</button>
   </div>
 </div>
 

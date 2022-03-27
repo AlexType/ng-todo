@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { AuthorizationRoutingModule } from './authorization-routing.module';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -20,10 +23,14 @@ import { RegistrationComponent } from './components/registration/registration.co
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     AuthorizationRoutingModule,
     NzInputModule,
     NzButtonModule,
+    NzSpinModule,
+    NzMessageModule,
   ],
-  providers: [],
+  providers: [NzMessageService],
 })
 export class AuthorizationModule {}

@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './components/404/404.component';
+import { UserService } from './services/user.service';
 import { MarkEffects } from './store/effects/mark.effect';
 import { TaskEffects } from './store/effects/task.effect';
 import { appReducers } from './store/reducers/_app.reducers';
@@ -45,6 +46,7 @@ const ngZorroConfig: NzConfig = {
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
+    UserService,
     { provide: NZ_I18N, useValue: ru_RU },
     { provide: LOCALE_ID, useValue: 'ru' },
     { provide: NZ_CONFIG, useValue: ngZorroConfig },

@@ -1,20 +1,32 @@
 <h2 class="text-center mb-4">Регистрация</h2>
 
-<form>
-  <div class="mb-3">
-    <input nz-input type="text" placeholder="Ваше имя" />
-  </div>
-  <div class="mb-3">
-    <input nz-input type="email" placeholder="Ваш E-mail" />
-  </div>
-  <div>
-    <input nz-input type="tel" placeholder="Ваш номер" />
-  </div>
-</form>
+<nz-spin [nzSpinning]="loading">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <input formControlName="name" nz-input type="text" placeholder="Имя" />
+    </div>
+    <div class="mb-3">
+      <input
+        nz-input
+        type="email"
+        placeholder="E-mail"
+        formControlName="email"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        nz-input
+        type="password"
+        placeholder="Пароль"
+        formControlName="password"
+      />
+    </div>
+  </form>
+</nz-spin>
 
 <div class="row justify-content-center mt-4">
   <div class="col-auto">
-    <button nz-button>Зарегистрироваться</button>
+    <button nz-button (click)="registration()">Зарегистрироваться</button>
   </div>
 </div>
 
@@ -25,7 +37,7 @@
         nz-button
         nzType="link"
         style="padding: 0"
-        [routerLink]="['/authorization', 'registration']"
+        [routerLink]="['/authorization', 'log-in']"
       >
         Вход
       </a>
